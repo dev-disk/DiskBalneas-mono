@@ -23,7 +23,7 @@ public class Stock {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private Products productName;
-    private Products salePrice;
-    private Products stockQuantity;
+    private Product productName;
+    private Product salePrice;
+    private Product stockQuantity;
 }

@@ -1,5 +1,6 @@
 package disk.api.domain.entities;
 
+import java.util.Date;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
@@ -13,19 +14,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table (name = "Products")
+@Table (name = "Sale")
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Products {
+public class Sale {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    
-    private String productName;
-    private Double salePrice;
-    private Double costPrice;
-    private Integer stockQuantity;
-    private Integer unit;
+
+    private Date data;
+    private String itens;
+    private Double subtotal;
 }
