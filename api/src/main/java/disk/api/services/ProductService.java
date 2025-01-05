@@ -1,7 +1,6 @@
 package disk.api.services;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -26,7 +25,7 @@ public class ProductService {
         product.setSalePrice(ProductRegister.salePrice());
         product.setCostPrice(ProductRegister.costPrice());
         product.setStockQuantity(ProductRegister.stockQuantity());
-        product.setUnit(ProductRegister.unit());
+        product.setUnitMeasure(ProductRegister.unitMeasure());
 
         this.productRepo.save(product);
         return product;
@@ -41,32 +40,9 @@ public class ProductService {
             p.getProductName(),
             p.getSalePrice(),
             p.getStockQuantity(),
-            p.getUnit()
+            p.getUnitMeasure()
         ))
         .collect(Collectors.toList());
     }
 
-    public Product updateProduct(UUID id, ProductRequest updateProduct) {
-        
-        Product product = this.productRepo.findById(id)
-            .orElseThrow(() -> new RuntimeException("Produto não encontrado."));
-
-        product.setProductName(updateProduct.productName());
-        product.setSalePrice(updateProduct.salePrice());
-        product.setCostPrice(updateProduct.costPrice());
-        product.setStockQuantity(updateProduct.stockQuantity());
-        product.setUnit(updateProduct.unit());
-
-        return productRepo.save(product);
-
-    }
-
-    public Product deleteProduct(UUID id) {
-
-        Product product = productRepo.findById(id)
-            .orElseThrow(() -> new RuntimeException("Produto não encontrado."));
-        
-        this.productRepo.delete(product);
-        return product;
-    }
 }

@@ -6,10 +6,10 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=disk_db
+      - POSTGRES_DB=testando
     volumes:
-      - disk-db:/var/lib/postgresql/data  
+      - diskbalneas:/var/lib/postgresql/data  
       - ./conf.d:/etc/postgresql/conf.d
 
 volumes:
-  disk-db:
+  diskbalneas:

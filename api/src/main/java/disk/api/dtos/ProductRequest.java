@@ -6,6 +6,6 @@ public record ProductRequest(
  Double salePrice,
  Double costPrice,
  Integer stockQuantity,
- Integer unit
+ String unitMeasure
  
 ) {}

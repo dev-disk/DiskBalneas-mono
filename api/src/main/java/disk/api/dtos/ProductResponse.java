@@ -8,6 +8,6 @@ public record ProductResponse(
     String productName,
     Double salePrice,
     Integer stockQuantity,
-    Integer unit
+    String unitMeasure
     
 ) {}
