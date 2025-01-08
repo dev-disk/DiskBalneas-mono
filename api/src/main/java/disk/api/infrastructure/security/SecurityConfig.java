@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -28,7 +30,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
-                // .requestMatchers(AUTH_WHITELIST).permitAll()
+                .requestMatchers(AUTH_WHITELIST).permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .anyRequest().authenticated()
@@ -37,17 +39,17 @@ public class SecurityConfig {
             .build();
     }
 
-    // private static final String[] AUTH_WHITELIST = {
-    //     "/v2/API-docs",
-    //     "/v3/API-docs",
-    //     "/v3/api-docs/**",
-    //     "/api-docs/**",
-    //     "/swagger-resources/**",
-    //     "/swagger-ui/**",
-    //     "/auth/**",
-    //     "/products/**",
-    //     "/sales/**"
-    // };
+    private static final String[] AUTH_WHITELIST = {
+        "/v2/API-docs",
+        "/v3/API-docs",
+        "/v3/api-docs/**",
+        "/api-docs/**",
+        "/swagger-resources/**",
+        "/swagger-ui/**",
+        "/auth/**",
+        "/products/**",
+        "/sales/**"
+    };
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -58,6 +60,19 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
 
         return configuration.getAuthenticationManager();
+    }
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+    return new WebMvcConfigurer() {
+        @Override
+        public void addCorsMappings(CorsRegistry registry) {
+            registry.addMapping("/**") 
+                    .allowedOrigins("http://localhost:4200", "http://127.0.0.1:4200")
+                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") 
+                    .allowedHeaders("*") 
+                    .allowCredentials(true); 
+        }
+    };
     }
 
 }
