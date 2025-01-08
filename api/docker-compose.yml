@@ -1,15 +1,38 @@
 services:
-  postgres:
-    image: postgres:latest
+  disk-api:
+    container_name: disk-api
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     ports:
-      - "5432:5432"     
+      - 8080:8080
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://disk-db:5432/db_diskbalneas
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    depends_on:
+      - disk-db
+    networks:
+      dev:
+
+
+  disk-db:
+    image: postgres:16.1
+    ports:
+      - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=testando
+      - POSTGRES_DB=db_diskbalneas
     volumes:
-      - diskbalneas:/var/lib/postgresql/data  
+      - diskbalneas:/var/lib/postgresql/data
       - ./conf.d:/etc/postgresql/conf.d
+    networks:
+      dev:
 
 volumes:
   diskbalneas:
+
+networks:
+    dev:
+        driver: bridge
