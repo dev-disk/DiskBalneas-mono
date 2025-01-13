@@ -1,8 +1,10 @@
 package disk.api.domain.entities;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import disk.api.domain.enums.Category;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +29,8 @@ public class Product {
     private UUID id;
     
     private String productName;
+
+    private Category category;
     
     private Double salePrice;
     
@@ -35,6 +39,8 @@ public class Product {
     private Integer stockQuantity;
     
     private String unitMeasure;
+
+    private LocalDateTime deletedAt;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<SaleProduct> saleProducts;

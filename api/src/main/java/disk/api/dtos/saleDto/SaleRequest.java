@@ -1,4 +1,4 @@
-package disk.api.dtos;
+package disk.api.dtos.saleDto;
 
 import java.util.List;
 import java.util.UUID;

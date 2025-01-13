@@ -1,8 +1,8 @@
-package disk.api.dtos;
+package disk.api.dtos.authDto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record AuthenticationDTO(
+public record LoginRequest(
     @NotBlank
     String login,
     @NotBlank

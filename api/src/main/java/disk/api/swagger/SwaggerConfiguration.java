@@ -18,15 +18,24 @@ public class SwaggerConfiguration {
             .scheme("bearer");
     }
 
-    @Bean
-    public OpenAPI openAPI() {
-        return new OpenAPI()
-            .info(new Info()
-                .title("Disk API")
-                .version("1.0")
-                .description("API para gerenciamento de vendas e produtos"))
-            .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
-            .components(new Components()
-                .addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()));
-    }
+  @Bean
+  public OpenAPI openAPI() {
+    return new OpenAPI().addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
+        .components(new Components().addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()));
+  }
+
+  @Bean
+  public OpenAPI customOpenAPI() {
+      return new OpenAPI()
+              .info(new Info()
+                      .title("Disk Balneas API")
+                      .version("1.0")
+                      .description("API para gerenciamento de vendas e produtos."))
+              .components(new Components()
+                      .addSecuritySchemes("bearer-key",
+                              new SecurityScheme()
+                                      .type(SecurityScheme.Type.HTTP)
+                                      .scheme("bearer")
+                                      .bearerFormat("JWT")));
+  }
 }

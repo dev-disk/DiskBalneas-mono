@@ -3,18 +3,25 @@ package disk.api.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import disk.api.dtos.ProductRequest;
-import disk.api.dtos.ProductResponse;
+import disk.api.dtos.productDto.ProductRequest;
+import disk.api.dtos.productDto.ProductResponse;
 import disk.api.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 
 @RestController
@@ -25,20 +32,34 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @Operation(summary = "Registrar um produto.", method = "POST")
+    @Operation(summary = "Registra um produto.", method = "POST")
     @PostMapping()
-    public String createProduct(@RequestBody ProductRequest productRegister) {
+    public ResponseEntity createProduct(@RequestBody ProductRequest productRegister) {
         
-        this.productService.newProduct(productRegister);
-        
-        return "Produto registrado com sucesso";
+        var response = this.productService.newProduct(productRegister);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     @Operation(summary = "Retorna os produtos.", method = "GET")
     @GetMapping()
-    public List<ProductResponse> getProducts () {
+    public ResponseEntity getProducts () {
 
-        return productService.getProduct();
+        var response = this.productService.getProduct();
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
+    @Operation(summary = "Atualiza um produto.", method = "PUT")
+    @PutMapping("/{id}")
+    public ResponseEntity putProduct (@PathVariable String id, @RequestBody @Valid ProductRequest updateProduct) {
+        var response = this.productService.updateProduct(id, updateProduct);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
+    @Operation(summary = "Deleta um produto.", method = "DELETE")
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteProduct (@PathVariable String id) {
+        var response = this.productService.deleteProduct(id);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
     
 }
