@@ -1,0 +1,36 @@
+:host {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+button {
+  margin-top: 16px;
+}
+
+.form-products-container {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 16px;
+}
+
+mat-tab-group {
+  max-width: 800px;
+  width: 100%;
+  transform: translateY(20px);
+}
+
+input[type="number"]::-webkit-inner-spin-button, 
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}

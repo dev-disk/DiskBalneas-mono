@@ -1,0 +1,99 @@
+<mat-tab-group [dynamicHeight]="true">
+  <mat-tab label="Cadastro">
+    <div class="form-products-container">
+      <div class="form-field">
+        <mat-label>Nome</mat-label>
+        <mat-form-field appearance="outline">
+          <input matInput />
+        </mat-form-field>
+      </div>
+
+      <div class="form-field">
+        <mat-label>Preço da Venda</mat-label>
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            type="text"
+            [value]="formatCurrency(salePrice)"
+            (input)="updateCurrency($event, 'salePrice')"
+          />
+          <span matTextSuffix>R$</span>
+        </mat-form-field>
+      </div>
+
+      <div class="form-field">
+        <mat-label>Preço de Custo</mat-label>
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            type="text"
+            [value]="formatCurrency(costPrice)"
+            (input)="updateCurrency($event, 'costPrice')"
+          />
+          <span matTextSuffix>R$</span>
+        </mat-form-field>
+      </div>
+
+      <div class="form-field">
+        <mat-label>Estoque Atual</mat-label>
+        <mat-form-field appearance="outline">
+          <input matInput />
+        </mat-form-field>
+      </div>
+
+      <div class="form-field">
+        <mat-label>Unidade de Medida</mat-label>
+        <mat-form-field appearance="outline">
+          <mat-select>
+            <mat-option value="one">First option</mat-option>
+            <mat-option value="two">Second option</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form-field">
+        <mat-label>Categoria do Produto</mat-label>
+        <mat-form-field appearance="outline">
+          <mat-select>
+            <mat-option value="two">Sem categoria</mat-option>
+            <mat-option value="one">Gelo</mat-option>
+            <mat-option value="two">Energético</mat-option>
+            <mat-option value="two">Whisky</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Combos">
+    <div class="form-products-container">
+      <div class="form-field">
+        <mat-label>Gelo</mat-label>
+        <mat-form-field appearance="outline">
+          <mat-select>
+            <mat-option value="one">First option</mat-option>
+            <mat-option value="two">Second option</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-field">
+        <mat-label>Whisky</mat-label>
+        <mat-form-field appearance="outline">
+          <mat-select>
+            <mat-option value="one">First option</mat-option>
+            <mat-option value="two">Second option</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-field">
+        <mat-label>Energético</mat-label>
+        <mat-form-field appearance="outline">
+          <mat-select>
+            <mat-option value="one">First option</mat-option>
+            <mat-option value="two">Second option</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>

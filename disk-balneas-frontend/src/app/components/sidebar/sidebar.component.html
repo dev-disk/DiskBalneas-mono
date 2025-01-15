@@ -1,0 +1,66 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="sidenav">
+    <mat-nav-list class="nav-container-list">
+      <img src="diskBalneasLogo.png" alt="" width="80" height="80">
+      <a mat-list-item routerLink="/">
+        <span class="entry">
+          <mat-icon style="color: #1EB600;">home</mat-icon>
+          <span>Início</span>
+        </span>
+      </a>
+      <a mat-list-item routerLink="/profile">
+        <span class="entry">
+          <mat-icon style="color: #1EB600;">person</mat-icon>
+          <span>Estatísticas</span>
+        </span>
+      </a>
+      <a mat-list-item routerLink="/clients">
+        <span class="entry">
+          <mat-icon style="color: #1EB600;">settings</mat-icon>
+          <span>Clientes</span>
+        </span>
+      </a>
+      <a mat-list-item routerLink="/sales">
+        <span class="entry">
+          <mat-icon style="color: #1EB600;">shopping_cart</mat-icon>
+          <span>Vendas</span>
+        </span>
+      </a>
+      <a mat-list-item routerLink="/stock">
+        <span class="entry">
+          <mat-icon style="color: #1EB600;">inventory</mat-icon>
+          <span>Estoque</span>
+        </span>
+      </a>
+      <a mat-list-item routerLink="/products">
+        <span class="entry">
+          <mat-icon style="color: #1EB600;">storefront</mat-icon>
+          <span>Produtos</span>
+        </span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="sidenav.toggle()"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <div class="tollbar-header" [ngClass]="{ 'has-subtitle': hasSubtitle }">
+        <span class="page-title">{{ pageTitle }}</span>
+        <span *ngIf="pageSubTitle" class="page-subtitle">{{
+          pageSubTitle
+        }}</span>
+      </div>
+    </mat-toolbar>
+
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

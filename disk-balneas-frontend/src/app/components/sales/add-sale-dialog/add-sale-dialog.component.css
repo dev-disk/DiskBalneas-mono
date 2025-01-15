@@ -1,0 +1,126 @@
+.full-width {
+  width: 100%;
+}
+
+mat-dialog-content {
+  min-height: 100px;
+  padding: 20px 0;
+}
+
+mat-form-field {
+  margin-bottom: 16px;
+}
+
+mat-form-field.full-width {
+  width: 50%;
+  margin-right: auto;
+}
+
+
+::ng-deep .mat-mdc-option .mdc-list-item__primary-text {
+  width: 100%;
+}
+
+.option-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.product-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-price {
+  color: #666;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  padding-left: 16px;
+  flex-shrink: 0;
+}
+
+::ng-deep .mat-mdc-option {
+  height: auto !important;
+  line-height: 1.2 !important;
+  padding: 12px 16px !important;
+}
+
+mat-list-item span {
+  margin-right: 16px; /* Ajuste o valor conforme necessário */
+}
+
+mat-list-item span:last-child {
+  margin-right: 0; /* Remove o espaçamento à direita do último span */
+}
+
+
+.list-item-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 8px 0;
+}
+
+/* Estilo para a informação do produto (nome) */
+.product-info {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 16px;
+}
+
+/* Container para preços e ações */
+.price-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* Espaçamento uniforme entre os elementos */
+  white-space: nowrap;
+}
+
+
+/* Ajuste para o botão ficar mais compacto se necessário */
+.price-actions button {
+  min-width: 40px;
+  padding: 0 8px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 200px;
+}
+
+.search-container-box {
+  display: flex;
+  gap: 16px;
+  font-size: 1.1rem;
+  height: 56px; /* Match the height of mat-form-field */
+  align-items: center;
+}
+
+.search-container-box span {
+  font-weight: 500;
+}
+
+mat-form-field.full-width {
+  width: 60%;
+  margin: 0;  /* Remove bottom margin to align with box */
+}
+
+/* Remover limite máximo de largura do diálogo */
+/* ::ng-deep .mat-mdc-dialog-container {
+  max-width: none !important;
+} */
+
+/* Ou definir um novo limite máximo */
+/* ::ng-deep .mat-mdc-dialog-container {
+  max-width: 90vw !important;
+} */
