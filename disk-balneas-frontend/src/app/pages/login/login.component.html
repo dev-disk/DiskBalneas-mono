@@ -1,0 +1,23 @@
+<div class="form-login">
+    <form [formGroup]="loginForm" (ngSubmit)="submitLogin()">
+        <img src="diskBalneasBeerShopLogo.png" alt="" width="450" height="250">
+        <div class="border">
+            <mat-form-field>
+                <mat-label>Login</mat-label>
+                <input matInput formControlName="login" />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Senha</mat-label>
+                <input matInput [type]="hide() ? 'password' : 'text'" formControlName="password" />
+                <button mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide()">
+                    <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+            <section>
+                <div class="button">
+                    <button type="submit" [disabled]="loginForm.invalid" mat-raised-button>Continuar</button>
+                </div>
+            </section>
+        </div>
+    </form>
+</div>

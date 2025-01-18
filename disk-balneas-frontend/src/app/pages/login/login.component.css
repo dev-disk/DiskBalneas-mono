@@ -1,0 +1,35 @@
+.form-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    
+}
+.border {
+    background-color: #1B1B1B;
+    width: 80%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border: 1px solid #1B1B1B;
+    border-radius: 8px;
+    padding: 0 30px;
+    animation: pulsar 2s infinite;
+}
+.border .button {
+    display: flex;
+    justify-content: center;
+}
+
+@keyframes pulsar{
+    0% {
+        box-shadow: 0 0 5px rgba(255, 174, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 18px rgba(255, 174, 1);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(255, 174, 0.5);
+    }
+}
