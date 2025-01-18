@@ -1,10 +1,19 @@
 <mat-tab-group [dynamicHeight]="true">
   <mat-tab label="Cadastro">
-    <div class="form-products-container">
+    <form
+      [formGroup]="productForm"
+      (ngSubmit)="addProduct()"
+      class="form-products-container"
+    >
       <div class="form-field">
         <mat-label>Nome</mat-label>
         <mat-form-field appearance="outline">
-          <input matInput />
+          <input matInput formControlName="productName" />
+          <mat-error
+            *ngIf="productForm.get('productName')?.errors?.['required']"
+          >
+            Nome é obrigatório
+          </mat-error>
         </mat-form-field>
       </div>
 
@@ -16,8 +25,12 @@
             type="text"
             [value]="formatCurrency(salePrice)"
             (input)="updateCurrency($event, 'salePrice')"
+            formControlName="salePrice"
           />
           <span matTextSuffix>R$</span>
+          <mat-error *ngIf="productForm.get('salePrice')?.errors?.['required']">
+            Preço de venda é obrigatório
+          </mat-error>
         </mat-form-field>
       </div>
 
@@ -29,40 +42,66 @@
             type="text"
             [value]="formatCurrency(costPrice)"
             (input)="updateCurrency($event, 'costPrice')"
+            formControlName="costPrice"
           />
           <span matTextSuffix>R$</span>
+          <mat-error *ngIf="productForm.get('costPrice')?.errors?.['required']">
+            Preço de custo é obrigatório
+          </mat-error>
         </mat-form-field>
       </div>
 
       <div class="form-field">
         <mat-label>Estoque Atual</mat-label>
         <mat-form-field appearance="outline">
-          <input matInput />
+          <input matInput type="number" formControlName="stockQuantity" />
+          <mat-error
+            *ngIf="productForm.get('stockQuantity')?.errors?.['required']"
+          >
+            Quantidade em estoque é obrigatória
+          </mat-error>
+          <mat-error *ngIf="productForm.get('stockQuantity')?.errors?.['min']">
+            Quantidade não pode ser negativa
+          </mat-error>
         </mat-form-field>
       </div>
 
       <div class="form-field">
         <mat-label>Unidade de Medida</mat-label>
         <mat-form-field appearance="outline">
-          <mat-select>
-            <mat-option value="one">First option</mat-option>
-            <mat-option value="two">Second option</mat-option>
+          <mat-select formControlName="unitMeasure">
+            <mat-option value="UN">Unidade</mat-option>
+            <mat-option value="KG">Quilograma</mat-option>
+            <mat-option value="L">Litro</mat-option>
           </mat-select>
+          <mat-error
+            *ngIf="productForm.get('unitMeasure')?.errors?.['required']"
+          >
+            Unidade de medida é obrigatória
+          </mat-error>
         </mat-form-field>
       </div>
 
       <div class="form-field">
         <mat-label>Categoria do Produto</mat-label>
         <mat-form-field appearance="outline">
-          <mat-select>
-            <mat-option value="two">Sem categoria</mat-option>
-            <mat-option value="one">Gelo</mat-option>
-            <mat-option value="two">Energético</mat-option>
-            <mat-option value="two">Whisky</mat-option>
+          <mat-select formControlName="category">
+            @for (category of categoryArray; track category.key) {
+            <mat-option [value]="category.value">{{
+              category.label
+            }}</mat-option>
+            }
           </mat-select>
         </mat-form-field>
       </div>
-    </div>
+
+      <div class="button-container">
+        <button mat-fab extended type="submit" [disabled]="productForm.invalid">
+          <mat-icon>add</mat-icon>
+          Adicionar Produto
+        </button>
+      </div>
+    </form>
   </mat-tab>
 
   <mat-tab label="Combos">
@@ -94,6 +133,12 @@
           </mat-select>
         </mat-form-field>
       </div>
+    </div>
+    <div class="button-container">
+      <button mat-fab extended>
+        <mat-icon>add</mat-icon>
+        Adicionar Combo
+      </button>
     </div>
   </mat-tab>
 </mat-tab-group>

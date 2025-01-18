@@ -9,7 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ProductService } from '../../../services/product.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,6 +18,7 @@ import { IProduct } from '../../../interfaces/IProduct';
 import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { SalesService } from '../../../services/sales.service';
 
 @Component({
   selector: 'app-add-sale-dialog',
@@ -42,6 +43,11 @@ import { MatIconModule } from '@angular/material/icon';
 export class AddSaleDialogComponent implements OnInit {
   private readonly productService = inject(ProductService);
   private readonly cdr = inject(ChangeDetectorRef);
+
+  constructor(
+    private dialogRef: MatDialogRef<AddSaleDialogComponent>,
+    private salesService: SalesService
+  ) {}
 
   myControl = new FormControl<string | IProduct>('');
   options: IProduct[] = [];
@@ -69,7 +75,7 @@ export class AddSaleDialogComponent implements OnInit {
   loadProducts() {
     this.productService.getAllProducts().subscribe({
       next: (products) => {
-        this.options = products;
+        this.options = products.data;
       },
       error: (error) => {
         console.error('Erro ao carregar produtos:', error);
@@ -90,14 +96,12 @@ export class AddSaleDialogComponent implements OnInit {
   onOptionSelected(event: any) {
     const selectedProduct = event.option.value as IProduct;
 
-    // Adiciona o produto com quantidade inicial 1
     this.selectedProducts.push({
       product: selectedProduct,
       quantity: 1,
       totalPrice: selectedProduct.salePrice,
     });
 
-    // Limpa o input após a seleção
     this.myControl.setValue('');
     this.cdr.markForCheck();
   }
@@ -118,7 +122,6 @@ export class AddSaleDialogComponent implements OnInit {
     }
   }
 
-  // Adicione dentro da classe AddSaleDialogComponent
   getTotalQuantity(): number {
     return this.selectedProducts.reduce(
       (total, item) => total + item.quantity,
@@ -132,4 +135,24 @@ export class AddSaleDialogComponent implements OnInit {
       0
     );
   }
+
+  submitSale() {
+    if (this.selectedProducts.length === 0) return;
+
+    const productIds = this.selectedProducts.map(item => item.product.id!);
+    const quantities = this.selectedProducts.map(item => item.quantity);
+
+    this.salesService.createSale(productIds, quantities).subscribe({
+      next: (response) => {
+        this.dialogRef.close({
+          success: true,
+          sale: response
+        });
+      },
+      error: (error) => {
+        console.error('Erro ao criar venda:', error);
+      }
+    });
+  }
+
 }
