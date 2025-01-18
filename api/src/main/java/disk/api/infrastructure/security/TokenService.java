@@ -38,7 +38,7 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
-                .withIssuer("Disk Balneas Api")
+                .withIssuer("disk-balneas-api")
                 .withSubject(user.getLogin())
                 .withExpiresAt(genExpirationDate())
                 .sign(algorithm);
@@ -52,30 +52,13 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
-                    .withIssuer("Disk Balneas Api")
+                    .withIssuer("disk-balneas-api")
                     .build()
                     .verify(token)
                     .getSubject();
         } catch (JWTVerificationException exception) {
             return null;
         }
-    }
-    public User getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    
-    String login;
-    if (authentication.getPrincipal() instanceof User) {
-        login = ((User) authentication.getPrincipal()).getLogin();
-    } else {
-        login = authentication.getName();
-    }
-    logger.info("Login: {}", login);
-    
-    return userRepo.findByLogin(login)
-        .orElseThrow(() -> new ResponseStatusException(
-            HttpStatus.UNAUTHORIZED,
-            "Token inválido ou usuário não encontrado"
-        ));
     }
 
     private Instant genExpirationDate() {

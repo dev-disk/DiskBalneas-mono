@@ -32,12 +32,6 @@ public class SaleService {
     public ServiceResponse<String> createSale(SaleRequest request) {
 
         var response = new ServiceResponse<String>();
-        User currentUser = tokenService.getCurrentUser();
-        if (currentUser == null) {
-            response.setMessage("Usuário não autenticado");
-            response.setStatus(HttpStatus.UNAUTHORIZED);
-            return response;
-        }
         
         List<Product> products = productRepo.findAllById(request.productIds());
         if (products.isEmpty()) {
@@ -82,12 +76,6 @@ public class SaleService {
     List<Sale> sales = saleRepo.findAll();
 
     var response = new ServiceResponse<List<SaleResponse>>();
-    User currentUser = tokenService.getCurrentUser();
-        if (currentUser == null) {
-            response.setMessage("Usuário não autenticado");
-            response.setStatus(HttpStatus.UNAUTHORIZED);
-            return response;
-        }
 
     List<SaleResponse> saleResponses = sales.stream()
         .map(sale -> new SaleResponse(

@@ -32,7 +32,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                 var token = this.recoverToken(request);
                 var login = tokenService.validateToken(token);
 
-                if (token != null) {
+                if (login != null) {
                     User user = userRepo.findByLogin(login).orElseThrow(() -> new RuntimeException("Usuário não registrado."));
                     var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
                     var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);

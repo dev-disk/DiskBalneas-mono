@@ -26,12 +26,6 @@ public class ProductService {
 
     public ServiceResponse<String> newProduct(ProductRequest ProductRegister){
         var response = new ServiceResponse<String>();
-        User currentUser = tokenService.getCurrentUser();
-        if (currentUser == null) {
-            response.setMessage("Usuário não autenticado");
-            response.setStatus(HttpStatus.UNAUTHORIZED);
-            return response;
-        }
 
         Product product = new Product();
         product.setCategory(ProductRegister.category());
@@ -51,13 +45,6 @@ public class ProductService {
     public ServiceResponse<List<ProductResponse>> getProduct(){
         var response = new ServiceResponse<List<ProductResponse>>();
 
-        User currentUser = tokenService.getCurrentUser();
-
-        if (currentUser == null) {
-            response.setMessage("Usuário não autenticado");
-            response.setStatus(HttpStatus.UNAUTHORIZED);
-            return response;
-        }
         List<Product> products = productRepo.findByDeletedAtIsNull();
 
         List<ProductResponse> productResponses = products.stream()
@@ -76,12 +63,6 @@ public class ProductService {
     }
     public ServiceResponse<String> updateProduct (String id, ProductRequest updateProduct) {
         var response = new ServiceResponse<String>();
-        User currentUser = tokenService.getCurrentUser();
-        if (currentUser == null) {
-            response.setMessage("Usuário não autenticado");
-            response.setStatus(HttpStatus.UNAUTHORIZED);
-            return response;
-        }
 
         UUID productId;
         try {
@@ -117,12 +98,6 @@ public class ProductService {
     }
     public ServiceResponse<String> deleteProduct (String id) {
         var response = new ServiceResponse<String>();
-        User currentUser = tokenService.getCurrentUser();
-        if (currentUser == null) {
-            response.setMessage("Usuário não autenticado");
-            response.setStatus(HttpStatus.UNAUTHORIZED);
-            return response;
-        }
 
         UUID productId;
         try {
