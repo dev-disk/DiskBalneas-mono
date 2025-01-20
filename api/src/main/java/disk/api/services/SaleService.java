@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import disk.api.domain.entities.Product;
 import disk.api.domain.entities.Sale;
 import disk.api.domain.entities.SaleProduct;
-import disk.api.domain.entities.User;
 import disk.api.domain.repositories.ProductRepository;
 import disk.api.domain.repositories.SaleRepository;
 import disk.api.dtos.productDto.ProductResponse;
@@ -93,7 +92,9 @@ public class SaleService {
                 .sum(),
             sale.getSubtotal()
         ))
+        .sorted((sA, sB) -> sB.data().compareTo(sA.data()))
         .collect(Collectors.toList());
+        
 
         response.setData(saleResponses);
         response.setStatus(HttpStatus.OK);
