@@ -3,14 +3,16 @@ package disk.api.services;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.UUID;
+ 
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import disk.api.domain.entities.Combo;
 import disk.api.domain.entities.Product;
 import disk.api.domain.entities.Sale;
 import disk.api.domain.entities.SaleProduct;
+import disk.api.domain.repositories.ComboRepository;
 import disk.api.domain.repositories.ProductRepository;
 import disk.api.domain.repositories.SaleRepository;
 import disk.api.dtos.productDto.ProductResponse;
@@ -26,6 +28,7 @@ public class SaleService {
 
     private final SaleRepository saleRepo;
     private final ProductRepository productRepo;
+    private final ComboRepository comboRepo;
     private final TokenService tokenService;
 
     public ServiceResponse<String> createSale(SaleRequest request) {
@@ -33,9 +36,11 @@ public class SaleService {
         var response = new ServiceResponse<String>();
         
         List<Product> products = productRepo.findAllById(request.productIds());
+        List<Combo> combos = comboRepo.findAllById(request.productIds());
+
         if (products.isEmpty()) {
             response.setStatus(HttpStatus.BAD_REQUEST);
-            response.setMessage("Não existem produtos cadastrados.");
+            response.setMessage("Não existem itens cadastrados.");
             return response;
         }
 
@@ -54,6 +59,7 @@ public class SaleService {
 
         for (int i = 0; i < products.size(); i++) {
             Product product = products.get(i);
+
             Integer quantity = request.quantities().get(i);
             sale.addProduct(product, quantity);
 
@@ -72,46 +78,53 @@ public class SaleService {
 
     public ServiceResponse<List<SaleResponse>> History() {
 
-    List<Sale> sales = saleRepo.findAll();
-
-    var response = new ServiceResponse<List<SaleResponse>>();
-
-    List<SaleResponse> saleResponses = sales.stream()
-        .map(sale -> new SaleResponse(
-            sale.getData(),
-            sale.getSaleProducts().stream()
-                .map(saleProduct -> new ProductResponse(
-                    saleProduct.getProduct().getId(), 
-                    saleProduct.getProduct().getProductName(), 
-                    saleProduct.getProduct().getSalePrice(), 
-                    saleProduct.getProduct().getStockQuantity(), 
-                    saleProduct.getProduct().getUnitMeasure()))
-                .collect(Collectors.toList()),
-            sale.getSaleProducts().stream()
-                .mapToInt(SaleProduct::getQuantity)
-                .sum(),
-            sale.getSubtotal()
-        ))
-        .sorted((sA, sB) -> sB.data().compareTo(sA.data()))
-        .collect(Collectors.toList());
-        
-
+        List<Sale> sales = saleRepo.findAll();
+    
+        var response = new ServiceResponse<List<SaleResponse>>();
+    
+        List<SaleResponse> saleResponses = sales.stream()
+            .map(sale -> {
+                
+                List<ProductResponse> productResponses = sale.getSaleProducts().stream()
+                    .map(saleProduct -> new ProductResponse(
+                        saleProduct.getProduct().getId(),
+                        saleProduct.getProduct().getProductName(),
+                        saleProduct.getProduct().getSalePrice(),
+                        saleProduct.getProduct().getStockQuantity(),
+                        saleProduct.getProduct().getUnitMeasure()))
+                    .collect(Collectors.toList());
+                
+                
+                List<Integer> quantities = sale.getSaleProducts().stream()
+                    .map(SaleProduct::getQuantity)
+                    .collect(Collectors.toList());
+                
+                return new SaleResponse(
+                    sale.getData(),
+                    productResponses,
+                    quantities,  
+                    sale.getSubtotal()
+                );
+            })
+            .sorted((sA, sB) -> sB.data().compareTo(sA.data()))
+            .collect(Collectors.toList());
+    
         response.setData(saleResponses);
         response.setStatus(HttpStatus.OK);
         return response;
-}
+    }
 
-    public Sale getSaleById(UUID id) {
+    public Sale getSaleById(Long id) {
         return saleRepo.findById(id)
             .orElseThrow(() -> new RuntimeException("Venda não encontrada"));
     }
 
-    public void deleteSale(UUID id) {
+    public void deleteSale(Long id) {
         Sale sale = getSaleById(id);
         saleRepo.delete(sale);
     }
 
-    public Sale updateSale(UUID id, SaleRequest request) {
+    public Sale updateSale(Long id, SaleRequest request) {
     Sale sale = getSaleById(id);
 
     List<Product> products = productRepo.findAllById(request.productIds());

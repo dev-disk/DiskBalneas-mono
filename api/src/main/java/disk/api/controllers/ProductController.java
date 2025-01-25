@@ -4,16 +4,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import disk.api.dtos.productDto.ProductRequest;
-import disk.api.dtos.productDto.ProductResponse;
 import disk.api.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-
-import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,14 +46,14 @@ public class ProductController {
 
     @Operation(summary = "Atualiza um produto.", method = "PUT")
     @PutMapping("/{id}")
-    public ResponseEntity putProduct (@PathVariable String id, @RequestBody @Valid ProductRequest updateProduct) {
+    public ResponseEntity putProduct (@PathVariable Long id, @RequestBody @Valid ProductRequest updateProduct) {
         var response = this.productService.updateProduct(id, updateProduct);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     @Operation(summary = "Deleta um produto.", method = "DELETE")
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteProduct (@PathVariable String id) {
+    public ResponseEntity deleteProduct (@PathVariable Long id) {
         var response = this.productService.deleteProduct(id);
         return ResponseEntity.status(response.getStatus()).body(response);
     }

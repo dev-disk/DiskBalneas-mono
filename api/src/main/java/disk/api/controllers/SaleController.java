@@ -3,15 +3,12 @@ package disk.api.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import disk.api.domain.entities.Sale;
 import disk.api.dtos.saleDto.SaleRequest;
-import disk.api.dtos.saleDto.SaleResponse;
 import disk.api.services.SaleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

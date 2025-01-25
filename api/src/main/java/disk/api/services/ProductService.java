@@ -2,14 +2,14 @@ package disk.api.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
+ 
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import disk.api.domain.entities.Product;
-import disk.api.domain.entities.User;
+import disk.api.domain.enums.Category;
 import disk.api.domain.repositories.ProductRepository;
 import disk.api.dtos.productDto.ProductRequest;
 import disk.api.dtos.productDto.ProductResponse;
@@ -34,6 +34,17 @@ public class ProductService {
         product.setCostPrice(ProductRegister.costPrice());
         product.setStockQuantity(ProductRegister.stockQuantity());
         product.setUnitMeasure(ProductRegister.unitMeasure());
+
+        if (product.getUnitMeasure().equals("DOSE")) {
+            Double dosePrice = (product.getSalePrice() * 70) / 1000;
+            product.setSalePrice(dosePrice);
+
+            Double costPrice = (product.getCostPrice() * 70) / 1000;
+            product.setCostPrice(costPrice);
+
+            product.setStockQuantity(14);
+
+        }
 
         this.productRepo.save(product);
 
@@ -61,12 +72,12 @@ public class ProductService {
         response.setStatus(HttpStatus.ACCEPTED);
         return response;
     }
-    public ServiceResponse<String> updateProduct (String id, ProductRequest updateProduct) {
+    public ServiceResponse<String> updateProduct (Long id, ProductRequest updateProduct) {
         var response = new ServiceResponse<String>();
 
-        UUID productId;
+        Long productId;
         try {
-            productId = UUID.fromString(id);
+            productId = id;
         } catch (IllegalArgumentException e) {
             response.setMessage("Produto inválido.");
             response.setStatus(HttpStatus.BAD_REQUEST);
@@ -96,12 +107,12 @@ public class ProductService {
         }
         return response;
     }
-    public ServiceResponse<String> deleteProduct (String id) {
+    public ServiceResponse<String> deleteProduct (Long id) {
         var response = new ServiceResponse<String>();
 
-        UUID productId;
+        Long productId;
         try {
-            productId = UUID.fromString(id);
+            productId = id;
         } catch (IllegalArgumentException e) {
             response.setMessage("Produto Inválido.");
             response.setStatus(HttpStatus.BAD_REQUEST);

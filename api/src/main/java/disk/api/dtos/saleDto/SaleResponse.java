@@ -9,7 +9,7 @@ public record SaleResponse(
 
     Date data,
     List<ProductResponse> products,
-    Integer quantity,
+    List<Integer> quantities,
     Double subtotal
     
 ) {}

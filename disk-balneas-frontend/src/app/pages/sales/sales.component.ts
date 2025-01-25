@@ -106,8 +106,8 @@ export class SalesComponent implements AfterViewInit, OnDestroy {
   private formatProductsDisplay(sale: ISale): string {
     if (!sale?.products.length) return '0 items';
     
-    return sale.products.map(product => {
-      return `${sale.quantity} ${product.productName}`;
+    return sale.products.map((product, index) => {
+      return `${sale.quantities[index]} ${product.productName}`;
     }).join('\n');
   }
   
