@@ -2,6 +2,7 @@ package disk.api.dtos.productDto;
 
 import disk.api.domain.enums.Category;
 
+
 public record ProductResponse(
 
     Long id,

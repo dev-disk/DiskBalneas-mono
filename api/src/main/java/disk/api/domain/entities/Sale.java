@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import disk.api.domain.enums.Category;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,7 +41,13 @@ public class Sale {
         if (saleProducts != null) {
             double total = 0.0;
             for (SaleProduct saleProduct : saleProducts) {
-                total += saleProduct.getProduct().getSalePrice() * saleProduct.getQuantity();
+                if (saleProduct.getProduct() != null) {
+                    total += saleProduct.getProduct().getSalePrice() * saleProduct.getQuantity();
+                }
+                if (saleProduct.getCombo() != null) {
+                    total += saleProduct.getCombo().getPrice() * saleProduct.getQuantity();
+                }
+                
             }
             this.subtotal = total;
         }
@@ -48,6 +55,11 @@ public class Sale {
 
     public void addProduct(Product product, Integer quantity) {
         SaleProduct saleProduct = new SaleProduct(this, product, quantity);
+        this.saleProducts.add(saleProduct);
+    }
+
+    public void addCombo(Combo combo, Integer quantity) {
+        SaleProduct saleProduct = new SaleProduct(this, combo, quantity);
         this.saleProducts.add(saleProduct);
     }
 

@@ -31,10 +31,20 @@ public class SaleProduct {
   private Sale sale;
 
   @ManyToOne
-  @JoinColumn(name = "product_id")
+  @JoinColumn(name = "product_id", nullable = true)
   private Product product;
 
+  @ManyToOne
+  @JoinColumn(name = "combo_id", nullable = true)
+  private Combo combo;
+
   private Integer quantity;
+
+  public SaleProduct(Sale sale, Combo combo, Integer quantity) {
+    this.sale = sale;
+    this.combo = combo;
+    this.quantity = quantity;
+}
 
   public SaleProduct(Sale sale, Product product, Integer quantity) {
         this.sale = sale;

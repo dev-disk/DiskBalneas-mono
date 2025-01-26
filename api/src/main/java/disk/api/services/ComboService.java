@@ -59,7 +59,6 @@ public class ComboService {
         isRemoved = true;
 
         if (isRemoved) {
-
             productRepo.save(ice);
             productRepo.save(drink);
             productRepo.save(energyDrink);

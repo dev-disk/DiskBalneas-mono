@@ -1,5 +1,6 @@
 package disk.api.services;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ import disk.api.domain.entities.Combo;
 import disk.api.domain.entities.Product;
 import disk.api.domain.entities.Sale;
 import disk.api.domain.entities.SaleProduct;
+import disk.api.domain.enums.Category;
 import disk.api.domain.repositories.ComboRepository;
 import disk.api.domain.repositories.ProductRepository;
 import disk.api.domain.repositories.SaleRepository;
@@ -44,29 +46,44 @@ public class SaleService {
             return response;
         }
 
-        for (int i = 0; i < products.size(); i++) {
-            Product product = products.get(i);
-            Integer quantity = request.quantities().get(i);  
-            
-            if (product.getStockQuantity() < quantity) {
-                response.setStatus(HttpStatus.BAD_REQUEST);
-                response.setMessage("Estoque insuficiente.");
+        if (!products.isEmpty()) {
+            for (int i = 0; i < products.size(); i++) {
+                Product product = products.get(i);
+                Integer quantity = request.quantities().get(i);  
+                
+                if (product.getStockQuantity() < quantity) {
+                    response.setStatus(HttpStatus.BAD_REQUEST);
+                    response.setMessage("Estoque insuficiente.");
+                    return response;
+                }
             }
         }
+        
 
         Sale sale = new Sale();
         sale.setData(new Date());
 
-        for (int i = 0; i < products.size(); i++) {
-            Product product = products.get(i);
-
-            Integer quantity = request.quantities().get(i);
-            sale.addProduct(product, quantity);
-
-            product.setStockQuantity(product.getStockQuantity() - quantity);
-            productRepo.save(product);
+        if (!products.isEmpty()) {
+            for (int i = 0; i < products.size(); i++) {
+                Product product = products.get(i);
+    
+                Integer quantity = request.quantities().get(i);
+                sale.addProduct(product, quantity);
+    
+                product.setStockQuantity(product.getStockQuantity() - quantity);
+                productRepo.save(product);
+            }
         }
-
+        
+        if (!combos.isEmpty()) {
+            for (int i = 0; i < combos.size(); i++) {
+                Combo combo = combos.get(i);
+    
+                Integer quantity = request.quantities().get(i);
+                sale.addCombo(combo, quantity);
+            }
+        }
+        
         sale.calculateSubtotal();
         
         saleRepo.save(sale);
@@ -83,9 +100,11 @@ public class SaleService {
         var response = new ServiceResponse<List<SaleResponse>>();
     
         List<SaleResponse> saleResponses = sales.stream()
-            .map(sale -> {
+            .map(sale -> { 
+                
                 
                 List<ProductResponse> productResponses = sale.getSaleProducts().stream()
+                .filter(saleProduct -> saleProduct.getProduct() != null)
                     .map(saleProduct -> new ProductResponse(
                         saleProduct.getProduct().getId(),
                         saleProduct.getProduct().getProductName(),
@@ -95,6 +114,20 @@ public class SaleService {
                         saleProduct.getProduct().getUnitMeasure()))
                     .collect(Collectors.toList());
                 
+                List<ProductResponse> comboResponses = sale.getSaleProducts().stream()
+                .filter(saleProduct -> saleProduct.getCombo() != null)
+                    .map(saleProduct -> new ProductResponse(
+                        saleProduct.getCombo().getId(),
+                        saleProduct.getCombo().getComboName(),
+                        Category.SEM_CATEGORIA,
+                        saleProduct.getCombo().getPrice(),
+                        1,
+                        "UN"))
+                    .collect(Collectors.toList());
+                
+                List<ProductResponse> allResponses = new ArrayList<>();
+                allResponses.addAll(productResponses);
+                allResponses.addAll(comboResponses);
                 
                 List<Integer> quantities = sale.getSaleProducts().stream()
                     .map(SaleProduct::getQuantity)
@@ -102,7 +135,7 @@ public class SaleService {
                 
                 return new SaleResponse(
                     sale.getData(),
-                    productResponses,
+                    allResponses,
                     quantities,  
                     sale.getSubtotal()
                 );
