@@ -62,6 +62,7 @@ public class ProductService {
             .map(p -> new ProductResponse(
                 p.getId(),
                 p.getProductName(),
+                p.getCategory(),
                 p.getSalePrice(),
                 p.getStockQuantity(),
                 p.getUnitMeasure()

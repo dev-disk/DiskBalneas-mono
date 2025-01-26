@@ -28,8 +28,8 @@ public class ComboService {
     @Autowired
     private ComboRepository comboRepo;
 
-    public ServiceResponse<String> createCombo(ComboRequest request) {
-        var response = new ServiceResponse<String>();
+    public ServiceResponse<ComboResponse> createCombo(ComboRequest request) {
+        var response = new ServiceResponse<ComboResponse>();
         var isRemoved = false;
 
         Optional<Product> iceOpt = productRepo.findById(request.iceId());
@@ -65,6 +65,14 @@ public class ComboService {
             productRepo.save(energyDrink);
         }
 
+        var comboResponse = new ComboResponse(
+                combo.getId(),
+                combo.getComboName(),
+                combo.getIce().getId(),
+                combo.getDrink().getId(),
+                combo.getEnergyDrink().getId(), combo.getPrice());
+
+        response.setData(comboResponse);
         response.setMessage("Combo criado com sucesso.");
         response.setStatus(HttpStatus.CREATED);
         return response;
@@ -76,6 +84,7 @@ public class ComboService {
 
         List<ComboResponse> comboResponses = combos.stream()
                 .map(combo -> new ComboResponse(
+                        combo.getId(),
                         combo.getComboName(),
                         combo.getIce().getId(),
                         combo.getDrink().getId(),

@@ -38,7 +38,7 @@ public class SaleService {
         List<Product> products = productRepo.findAllById(request.productIds());
         List<Combo> combos = comboRepo.findAllById(request.productIds());
 
-        if (products.isEmpty()) {
+        if (products.isEmpty() && combos.isEmpty()) {
             response.setStatus(HttpStatus.BAD_REQUEST);
             response.setMessage("Não existem itens cadastrados.");
             return response;
@@ -89,6 +89,7 @@ public class SaleService {
                     .map(saleProduct -> new ProductResponse(
                         saleProduct.getProduct().getId(),
                         saleProduct.getProduct().getProductName(),
+                        saleProduct.getProduct().getCategory(),
                         saleProduct.getProduct().getSalePrice(),
                         saleProduct.getProduct().getStockQuantity(),
                         saleProduct.getProduct().getUnitMeasure()))

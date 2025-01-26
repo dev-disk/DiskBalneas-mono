@@ -5,5 +5,5 @@ public enum Category {
     GELO,
     VODKA,
     WHISKY,
-    ENERGÉTICO
+    ENERGETICO
 }
