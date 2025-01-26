@@ -3,22 +3,30 @@ import {
   ChangeDetectorRef,
   Component,
   inject,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { ProductService } from '../../../services/product.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { map, Observable, startWith } from 'rxjs';
-import { IProduct } from '../../../interfaces/IProduct';
+import { map, Observable, startWith, Subject, takeUntil } from 'rxjs';
+import { IProduct, IProductResponse } from '../../../interfaces/IProduct';
 import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { SalesService } from '../../../services/sales.service';
+import { ComboDialogComponent } from '../../combo-dialog/combo-dialog.component';
+import { ICombo, IComboResponse } from '../../../interfaces/ICombo';
+import { Category } from '../../../enums/Category';
 
 @Component({
   selector: 'app-add-sale-dialog',
@@ -40,9 +48,11 @@ import { SalesService } from '../../../services/sales.service';
   templateUrl: './add-sale-dialog.component.html',
   styleUrl: './add-sale-dialog.component.css',
 })
-export class AddSaleDialogComponent implements OnInit {
+export class AddSaleDialogComponent implements OnInit, OnDestroy {
   private readonly productService = inject(ProductService);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroy$ = new Subject<void>();
+  readonly dialog = inject(MatDialog);
 
   constructor(
     private dialogRef: MatDialogRef<AddSaleDialogComponent>,
@@ -88,13 +98,13 @@ export class AddSaleDialogComponent implements OnInit {
   }
 
   selectedProducts: Array<{
-    product: IProduct;
+    product: IProductResponse;
     quantity: number;
     totalPrice: number;
   }> = [];
 
   onOptionSelected(event: any) {
-    const selectedProduct = event.option.value as IProduct;
+    const selectedProduct = event.option.value as IProductResponse;
 
     this.selectedProducts.push({
       product: selectedProduct,
@@ -139,20 +149,55 @@ export class AddSaleDialogComponent implements OnInit {
   submitSale() {
     if (this.selectedProducts.length === 0) return;
 
-    const productIds = this.selectedProducts.map(item => item.product.id!);
-    const quantities = this.selectedProducts.map(item => item.quantity);
+    const productIds = this.selectedProducts.map((item) => item.product.id!);
+    const quantities = this.selectedProducts.map((item) => item.quantity);
 
     this.salesService.createSale(productIds, quantities).subscribe({
       next: (response) => {
         this.dialogRef.close({
           success: true,
-          sale: response
+          sale: response,
         });
       },
       error: (error) => {
         console.error('Erro ao criar venda:', error);
-      }
+      },
     });
   }
 
+  openAddComboDialog() {
+    const dialogRef = this.dialog.open(ComboDialogComponent);
+
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result: { success: boolean; combo: IComboResponse }) => {
+        if (result?.success && result.combo) {
+          const combo: IComboResponse = result.combo;
+          console.log("Aqui", combo)
+          const comboProduct = {
+            product: <IProductResponse> {
+              id: combo.id,
+              productName: combo.comboName,
+              salePrice: combo.price,
+              category: Category.SEM_CATEGORIA,
+              stockQuantity: 1,
+              unitMeasure: "UN"
+            },
+            quantity: 1,
+            totalPrice: combo.price,
+          };
+
+          console.log(comboProduct)
+
+          this.selectedProducts.push(comboProduct);
+          this.cdr.markForCheck();
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

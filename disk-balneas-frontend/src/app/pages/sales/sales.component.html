@@ -10,8 +10,8 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Detalhes</th>
       <!-- <td mat-cell *matCellDef="let row">{{ row.more }}</td> -->
       <td mat-cell *matCellDef="let row">
-        <button mat-button (click)="openMoreDialog()">
-          <mat-icon svgIcon="more-horiz"></mat-icon>
+        <button mat-icon-button (click)="openMoreDialog()">
+          <mat-icon>info</mat-icon>
         </button>
       </td>
     </ng-container>

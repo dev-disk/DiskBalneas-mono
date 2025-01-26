@@ -3,5 +3,5 @@ export enum Category {
   GELO = 1,
   VODKA = 2,
   WHISKY = 3,
-  ENERGÉTICO = 4
+  ENERGETICO = 4
 }

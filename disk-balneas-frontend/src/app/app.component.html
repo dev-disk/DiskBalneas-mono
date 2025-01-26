@@ -1,1 +1,9 @@
-<app-sidebar></app-sidebar>
+<ng-container *ngIf="shouldShowSidebar; else publicContent">
+  <app-sidebar></app-sidebar>
+</ng-container>
+
+<ng-template #publicContent>
+  <div class="public-layout">
+    <router-outlet></router-outlet>
+  </div>
+</ng-template>

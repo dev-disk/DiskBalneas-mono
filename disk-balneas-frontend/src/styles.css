@@ -1,2 +1,9 @@
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Isso daqui só tá funcionando para as telas "públicas", mas o resto tá tudo ok */
+:root {
+  --background-color: #101414;
+}

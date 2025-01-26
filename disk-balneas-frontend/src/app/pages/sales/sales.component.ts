@@ -7,27 +7,30 @@ import {
   ViewChild,
   ChangeDetectorRef,
 } from '@angular/core';
-import { MatTableModule, MatTable } from '@angular/material/table';
+import { MatTableModule, MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatSortModule, MatSort } from '@angular/material/sort';
-import { SalesDataSource, SalesItem } from './sales-datasource';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import {
   MatDialog,
-  MatDialogConfig,
   MatDialogModule,
 } from '@angular/material/dialog';
-import { DomSanitizer } from '@angular/platform-browser';
 import { SaleDialogComponent } from '../../components/sales/sale-dialog/sale-dialog.component';
 import { AddSaleDialogComponent } from '../../components/sales/add-sale-dialog/add-sale-dialog.component';
-import { ICONS } from '../../../assets/icons';
 import { Subject, takeUntil } from 'rxjs';
 import { SalesService } from '../../services/sales.service';
 import { ISale } from '../../interfaces/ISale';
 import { CommonModule } from '@angular/common';
-import { IProduct } from '../../interfaces/IProduct';
 import { ReplacePipe } from '../../helpers/replace.pipe';
+
+interface SalesItem {
+  more: ISale;
+  date: string;
+  hour: string;
+  item: string;
+  subtotal: number;
+}
 
 @Component({
   selector: 'app-sales',
@@ -51,26 +54,16 @@ export class SalesComponent implements AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<SalesItem>;
 
-  dataSource: SalesDataSource;
   displayedColumns = ['more', 'date', 'hour', 'item', 'subtotal'];
+  dataSource = new MatTableDataSource<SalesItem>();
   private readonly destroy$ = new Subject<void>();
 
   constructor(
-    private readonly iconRegistry: MatIconRegistry,
-    private readonly sanitizer: DomSanitizer,
     private readonly salesService: SalesService,
     private readonly cdr: ChangeDetectorRef
   ) {
-    this.dataSource = new SalesDataSource();
-    this.registerIcons();
   }
 
-  private registerIcons(): void {
-    this.iconRegistry.addSvgIconLiteral(
-      'more-horiz',
-      this.sanitizer.bypassSecurityTrustHtml(ICONS.MORE_ICON)
-    );
-  }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
@@ -113,22 +106,17 @@ export class SalesComponent implements AfterViewInit, OnDestroy {
   
 
   loadSales() {
-    this.salesService
-      .getAllSales()
-      .pipe(takeUntil(this.destroy$))
+    this.salesService.getAllSales()
       .subscribe({
         next: (response) => {
           if (!response?.data) {
             console.error('No sales data received');
             this.dataSource.data = [];
-            this.cdr.detectChanges();
             return;
           }
 
           const tableData: SalesItem[] = response.data.map((sale) => {
             const saleDate = new Date(sale.data);
-
-            console.log(sale);
 
             return {
               more: sale,
@@ -141,16 +129,10 @@ export class SalesComponent implements AfterViewInit, OnDestroy {
 
           this.dataSource.data = tableData;
 
-          if (this.table) {
-            this.table.renderRows();
-          }
-
-          this.cdr.detectChanges();
         },
         error: (error) => {
           console.error('Erro ao carregar vendas:', error);
           this.dataSource.data = [];
-          this.cdr.detectChanges();
         },
       });
   }

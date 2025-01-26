@@ -17,7 +17,7 @@ export class SalesService {
     return this.http.get<IServiceResponse<ISale[]>>(this.apiUrl);
   }
 
-  createSale(productIds: string[], quantities: number[]): Observable<any> {
+  createSale(productIds: number[], quantities: number[]): Observable<any> {
     const payload = {
       productIds,
       quantities,

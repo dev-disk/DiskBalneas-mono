@@ -1,5 +1,5 @@
 <mat-tab-group [dynamicHeight]="true">
-  <mat-tab label="Cadastro">
+  <mat-tab label="Cadastrar Produto">
     <form
       [formGroup]="productForm"
       (ngSubmit)="addProduct()"
@@ -102,43 +102,5 @@
         </button>
       </div>
     </form>
-  </mat-tab>
-
-  <mat-tab label="Combos">
-    <div class="form-products-container">
-      <div class="form-field">
-        <mat-label>Gelo</mat-label>
-        <mat-form-field appearance="outline">
-          <mat-select>
-            <mat-option value="one">First option</mat-option>
-            <mat-option value="two">Second option</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="form-field">
-        <mat-label>Whisky</mat-label>
-        <mat-form-field appearance="outline">
-          <mat-select>
-            <mat-option value="one">First option</mat-option>
-            <mat-option value="two">Second option</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="form-field">
-        <mat-label>Energético</mat-label>
-        <mat-form-field appearance="outline">
-          <mat-select>
-            <mat-option value="one">First option</mat-option>
-            <mat-option value="two">Second option</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </div>
-    <div class="button-container">
-      <button mat-fab extended>
-        <mat-icon>add</mat-icon>
-        Adicionar Combo
-      </button>
-    </div>
   </mat-tab>
 </mat-tab-group>

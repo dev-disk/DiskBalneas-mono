@@ -1,0 +1,60 @@
+<div class="combo-container">
+  <form class="combo-form">
+    <h2 mat-dialog-title>Adicionar Combo</h2>
+    <mat-dialog-content>
+      <mat-form-field appearance="outline">
+        <mat-label>Nome do Combo</mat-label>
+        <input
+          matInput
+          [(ngModel)]="comboName"
+          name="comboName"
+          placeholder="Digite o nome do combo"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Gelo</mat-label>
+        <mat-select [(ngModel)]="selectedGelo" name="gelo">
+          @for (produto of geloProdutos; track produto) {
+          <mat-option [value]="produto.id">{{
+            produto.productName
+          }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Whisky</mat-label>
+        <mat-select [(ngModel)]="selectedWhisky" name="whisky">
+          @for (produto of whiskyProdutos; track produto) {
+          <mat-option [value]="produto.id">{{
+            produto.productName
+          }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Energético</mat-label>
+        <mat-select [(ngModel)]="selectedEnergetico" name="energetico">
+          @for (produto of energeticoProdutos; track produto) {
+          <mat-option [value]="produto.id">{{
+            produto.productName
+          }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </mat-dialog-content>
+    <button
+      mat-fab
+      extended
+      (click)="createCombo()"
+      [disabled]="
+        comboName == '' &&
+        selectedGelo == '' &&
+        selectedEnergetico == '' &&
+        selectedWhisky == ''
+      "
+    >
+      <mat-icon>add</mat-icon>
+      Adicionar Combo
+    </button>
+  </form>
+</div>

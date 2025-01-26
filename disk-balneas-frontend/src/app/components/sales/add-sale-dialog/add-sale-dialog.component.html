@@ -29,6 +29,7 @@
       </mat-autocomplete>
     </mat-form-field>
     <div class="search-container-box">
+      <button mat-button (click)="openAddComboDialog()">Combo</button>
       <span> Quant: {{ getTotalQuantity() }} </span>
       <span> Total: R$ {{ getTotalPrice().toFixed(2) }} </span>
     </div>

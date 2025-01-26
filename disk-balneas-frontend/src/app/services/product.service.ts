@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IProduct } from '../interfaces/IProduct';
+import { IProduct, IProductResponse } from '../interfaces/IProduct';
 import { IServiceResponse } from '../interfaces/IServiceResponse';
 
 @Injectable({
@@ -13,8 +13,8 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  getAllProducts(): Observable<IServiceResponse<IProduct[]>> {
-    return this.http.get<IServiceResponse<IProduct[]>>(this.apiUrl);
+  getAllProducts(): Observable<IServiceResponse<IProductResponse[]>> {
+    return this.http.get<IServiceResponse<IProductResponse[]>>(this.apiUrl);
   }
 
   addProduct(product: IProduct): Observable<IProduct> {
