@@ -1,0 +1,2 @@
+ALTER TABLE sales
+ADD COLUMN payment VARCHAR(50);
