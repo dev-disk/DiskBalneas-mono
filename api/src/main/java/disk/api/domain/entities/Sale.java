@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import disk.api.domain.enums.Category;
+import disk.api.domain.enums.Payment;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,12 +30,14 @@ public class Sale {
     @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", initialValue = 1, allocationSize = 1)
     private Long id;
 
-    private Date data;
+    private Date date;
 
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
     private List<SaleProduct> saleProducts = new ArrayList<>();
 
     private Double subtotal;
+
+    private Payment payment;
 
     public void calculateSubtotal() {
         if (saleProducts != null) {

@@ -61,7 +61,8 @@ public class SaleService {
         
 
         Sale sale = new Sale();
-        sale.setData(new Date());
+        sale.setDate(new Date());
+        sale.setPayment(request.payment());
 
         if (!products.isEmpty()) {
             for (int i = 0; i < products.size(); i++) {
@@ -119,7 +120,7 @@ public class SaleService {
                     .map(saleProduct -> new ProductResponse(
                         saleProduct.getCombo().getId(),
                         saleProduct.getCombo().getComboName(),
-                        Category.SEM_CATEGORIA,
+                        Category.COMBO,
                         saleProduct.getCombo().getPrice(),
                         1,
                         "UN"))
@@ -134,10 +135,11 @@ public class SaleService {
                     .collect(Collectors.toList());
                 
                 return new SaleResponse(
-                    sale.getData(),
+                    sale.getDate(),
                     allResponses,
                     quantities,  
-                    sale.getSubtotal()
+                    sale.getSubtotal(),
+                    sale.getPayment()
                 );
             })
             .sorted((sA, sB) -> sB.data().compareTo(sA.data()))

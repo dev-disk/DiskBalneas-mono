@@ -1,7 +1,9 @@
 package disk.api.domain.enums;
 
 public enum Category {
-    SEM_CATEGORIA,
+    COMBO,
+    REFRIGERANTE,
+    CERVEJA,
     GELO,
     VODKA,
     WHISKY,

@@ -1,6 +1,5 @@
 package disk.api.services;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,13 +10,11 @@ import org.springframework.stereotype.Service;
 
 import disk.api.domain.entities.Combo;
 import disk.api.domain.entities.Product;
-import disk.api.domain.entities.Sale;
 import disk.api.domain.repositories.ComboRepository;
 import disk.api.domain.repositories.ProductRepository;
 import disk.api.dtos.comboDto.ComboRequest;
 import disk.api.dtos.comboDto.ComboResponse;
 import disk.api.dtos.responsesDto.ServiceResponse;
-import disk.api.dtos.saleDto.SaleRequest;
 
 @Service
 public class ComboService {
