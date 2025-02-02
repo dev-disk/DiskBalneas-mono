@@ -1,7 +1,7 @@
 import { IProduct } from "./IProduct"
 
 export interface ISale {
-  data: string,
+  date: string,
   products: IProduct[],
   quantities: number[],
   subtotal: number

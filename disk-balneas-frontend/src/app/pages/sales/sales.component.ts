@@ -118,7 +118,7 @@ export class SalesComponent implements AfterViewInit, OnDestroy {
           }
 
           const tableData: SalesItem[] = response.data.map((sale) => {
-            const saleDate = new Date(sale.data);
+            const saleDate = new Date(sale.date);
 
             return {
               more: sale,
