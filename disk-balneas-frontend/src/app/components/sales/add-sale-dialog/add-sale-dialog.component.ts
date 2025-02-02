@@ -20,13 +20,15 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { map, Observable, startWith, Subject, takeUntil } from 'rxjs';
 import { IProduct, IProductResponse } from '../../../interfaces/IProduct';
-import { AsyncPipe, CurrencyPipe } from '@angular/common';
+import { AsyncPipe   } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { SalesService } from '../../../services/sales.service';
 import { ComboDialogComponent } from '../../combo-dialog/combo-dialog.component';
-import { ICombo, IComboResponse } from '../../../interfaces/ICombo';
+import { IComboResponse } from '../../../interfaces/ICombo';
 import { Category } from '../../../enums/Category';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 @Component({
   selector: 'app-add-sale-dialog',
@@ -43,6 +45,7 @@ import { Category } from '../../../enums/Category';
     AsyncPipe,
     MatListModule,
     MatIconModule,
+    MatCheckboxModule
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './add-sale-dialog.component.html',
@@ -53,6 +56,8 @@ export class AddSaleDialogComponent implements OnInit, OnDestroy {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly destroy$ = new Subject<void>();
   readonly dialog = inject(MatDialog);
+  isDeliveryChecked = false;
+
 
   constructor(
     private dialogRef: MatDialogRef<AddSaleDialogComponent>,
@@ -60,24 +65,33 @@ export class AddSaleDialogComponent implements OnInit, OnDestroy {
   ) {}
 
   myControl = new FormControl<string | IProduct>('');
-  options: IProduct[] = [];
+  options: IProductResponse[] = [];
   filteredOptions: Observable<IProduct[]> = new Observable<IProduct[]>();
 
   ngOnInit(): void {
     this.loadProducts();
 
     this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
+      startWith(null),
       map((value) => {
+        const filtered = this.options.filter(
+          (option) =>
+            option.unitMeasure !== "DOSE" &&
+             !this.selectedProducts.some((item) => item.product.id === option.id)
+        );
+
+        if (value === null) {
+          return filtered;
+        }        
         const name = typeof value === 'string' ? value : value?.productName;
-        return name ? this._filter(name as string) : this.options.slice();
+        return name ? this._filter(name, filtered) : filtered;
       })
     );
   }
 
-  private _filter(name: string): IProduct[] {
+  private _filter(name: string, availableOptions: IProductResponse[]): IProductResponse[] {
     const filterValue = name.toLowerCase();
-    return this.options.filter((option) =>
+    return availableOptions.filter((option) =>
       option.productName.toLowerCase().includes(filterValue)
     );
   }
@@ -140,10 +154,16 @@ export class AddSaleDialogComponent implements OnInit, OnDestroy {
   }
 
   getTotalPrice(): number {
-    return this.selectedProducts.reduce(
+    let total = this.selectedProducts.reduce(
       (total, item) => total + item.totalPrice,
       0
     );
+
+    if (this.isDeliveryChecked) {
+      total = total - (total * 0.05)
+    }
+  
+    return total;
   }
 
   submitSale() {
@@ -181,7 +201,7 @@ export class AddSaleDialogComponent implements OnInit, OnDestroy {
               productName: combo.comboName,
               salePrice: combo.price,
               category: Category.SEM_CATEGORIA,
-              stockQuantity: 1,
+              stockQuantity: 20,
               unitMeasure: "UN"
             },
             quantity: 1,

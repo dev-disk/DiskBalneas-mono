@@ -73,8 +73,10 @@ export class SalesComponent implements AfterViewInit, OnDestroy {
 
   readonly dialog = inject(MatDialog);
 
-  openMoreDialog() {
-    const dialogRef = this.dialog.open(SaleDialogComponent);
+  openMoreDialog(sale: ISale) {
+    const dialogRef = this.dialog.open(SaleDialogComponent, {
+      data: sale
+    });
 
     dialogRef
       .afterClosed()
@@ -100,7 +102,7 @@ export class SalesComponent implements AfterViewInit, OnDestroy {
     if (!sale?.products.length) return '0 items';
     
     return sale.products.map((product, index) => {
-      return `${sale.quantities[index]} ${product.productName}`;
+      return `${sale.quantities[index]} x ${product.productName}`;
     }).join('\n');
   }
   

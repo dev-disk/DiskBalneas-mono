@@ -1,9 +1,13 @@
-<h2 mat-dialog-title>Adicionar Venda</h2>
+<h2 mat-dialog-title class="add-sale-header">
+  Adicionar Venda
+  <button mat-fab extended (click)="openAddComboDialog()">Criar Combo</button>
+</h2>
 
 <mat-dialog-content>
   <div class="search-container">
     <mat-form-field appearance="fill" class="full-width">
       <input
+        #productInput
         type="text"
         matInput
         [formControl]="myControl"
@@ -29,7 +33,7 @@
       </mat-autocomplete>
     </mat-form-field>
     <div class="search-container-box">
-      <button mat-button (click)="openAddComboDialog()">Combo</button>
+      <mat-checkbox [(ngModel)]="isDeliveryChecked">Quero Delivery</mat-checkbox>
       <span> Quant: {{ getTotalQuantity() }} </span>
       <span> Total: R$ {{ getTotalPrice().toFixed(2) }} </span>
     </div>
@@ -40,16 +44,24 @@
     <mat-list-item>
       <div class="list-item-content">
         <span class="product-info">
-          {{ item.quantity }} - {{ item.product.productName }}
+          {{ $index + 1 }} - {{ item.product.productName }}
         </span>
         <div class="price-actions">
-          <button mat-icon-button (click)="updateQuantity($index, -1)">
+          <button
+            mat-icon-button
+            [disabled]="item.quantity === 1"
+            (click)="updateQuantity($index, -1)"
+          >
             <mat-icon>remove</mat-icon>
           </button>
           <span class="quantity-price"
             >{{ item.quantity }}x{{ item.product.salePrice.toFixed(2) }}</span
           >
-          <button mat-icon-button (click)="updateQuantity($index, 1)">
+          <button
+            mat-icon-button
+            [disabled]="item.quantity === item.product.stockQuantity"
+            (click)="updateQuantity($index, 1)"
+          >
             <mat-icon>add</mat-icon>
           </button>
           <span class="total-price">R$ {{ item.totalPrice.toFixed(2) }}</span>
@@ -65,7 +77,13 @@
 
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancelar</button>
-  <button mat-button color="primary" (click)="submitSale()" [disabled]="selectedProducts.length === 0" cdkFocusInitial>
-    Adicionar
+  <button
+    mat-button
+    color="primary"
+    (click)="submitSale()"
+    [disabled]="selectedProducts.length === 0"
+    cdkFocusInitial
+  >
+    Finalizar
   </button>
 </mat-dialog-actions>

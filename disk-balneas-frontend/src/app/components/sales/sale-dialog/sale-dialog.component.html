@@ -1,1 +1,12 @@
-<p>sale-dialog works!</p>
+<h2 mat-dialog-title>Detalhes da Venda</h2>
+<mat-dialog-content>
+  <mat-list>
+    @for (item of groupedItems; track $index) {
+    <mat-list-item> {{ item.quantity }} x {{ item.productName }} </mat-list-item>
+    }
+  </mat-list>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+</mat-dialog-actions>

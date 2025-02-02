@@ -95,7 +95,7 @@ mat-list-item span:last-child {
 .search-container {
   display: flex;
   align-items: center;
-  gap: 200px;
+  gap: 75px;
 }
 
 .search-container-box {
@@ -115,12 +115,7 @@ mat-form-field.full-width {
   margin: 0;  /* Remove bottom margin to align with box */
 }
 
-/* Remover limite máximo de largura do diálogo */
-/* ::ng-deep .mat-mdc-dialog-container {
-  max-width: none !important;
-} */
-
-/* Ou definir um novo limite máximo */
-/* ::ng-deep .mat-mdc-dialog-container {
-  max-width: 90vw !important;
-} */
+.add-sale-header button {
+  margin-left: 30px;
+  height: 40px;
+}

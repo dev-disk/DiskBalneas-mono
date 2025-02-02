@@ -36,9 +36,9 @@ import { IProductResponse } from '../../interfaces/IProduct';
   styleUrl: './combo-dialog.component.css',
 })
 export class ComboDialogComponent implements OnInit {
-  geloProdutos: IProductResponse[] = [];
-  whiskyProdutos: IProductResponse[] = [];
-  energeticoProdutos: IProductResponse[] = [];
+  iceProducts: IProductResponse[] = [];
+  drinkProducts: IProductResponse[] = [];
+  energyDrinksProducts: IProductResponse[] = [];
 
   selectedGelo: string = '';
   selectedWhisky: string = '';
@@ -59,12 +59,12 @@ export class ComboDialogComponent implements OnInit {
         category: Category[p.category as unknown as keyof typeof Category],
       }));
 
-      this.geloProdutos = produtos.filter((p) => p.category === Category.GELO);
-      this.whiskyProdutos = produtos.filter(
-        (p) => p.category === Category.WHISKY
+      this.iceProducts = produtos.filter((p) => p.category === Category.GELO);
+      this.drinkProducts = produtos.filter(
+        (p) => (p.category === Category.WHISKY || p.category === Category.VODKA) && p.unitMeasure === 'DOSE'
       );
-      this.energeticoProdutos = produtos.filter(
-        (p) => p.category === Category.ENERGETICO
+      this.energyDrinksProducts = produtos.filter(
+        (p) => p.category === Category.ENERGETICO && p.unitMeasure === 'DOSE'
       );
     });
   }
