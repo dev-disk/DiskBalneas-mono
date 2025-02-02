@@ -142,7 +142,7 @@ public class SaleService {
                     sale.getPayment()
                 );
             })
-            .sorted((sA, sB) -> sB.data().compareTo(sA.data()))
+            .sorted((sA, sB) -> sB.date().compareTo(sA.date()))
             .collect(Collectors.toList());
     
         response.setData(saleResponses);

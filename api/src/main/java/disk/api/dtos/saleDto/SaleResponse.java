@@ -8,7 +8,7 @@ import disk.api.dtos.productDto.ProductResponse;
 
 public record SaleResponse(
 
-    Date data,
+    Date date,
     List<ProductResponse> products,
     List<Integer> quantities,
     Double subtotal,

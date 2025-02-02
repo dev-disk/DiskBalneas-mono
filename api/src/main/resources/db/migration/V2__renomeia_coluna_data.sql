@@ -1,0 +1,2 @@
+ALTER TABLE sales DROP COLUMN "date";
+ALTER TABLE sales RENAME COLUMN "data" TO "date";
