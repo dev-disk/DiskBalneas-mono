@@ -1,0 +1,34 @@
+<h2 class="title" mat-dialog-title>Editar Produto</h2>
+    <mat-dialog-content class="content">
+      <form [formGroup]="editForm">
+        <mat-form-field class="inputs">
+          <mat-label>Nome do Produto</mat-label>
+          <input matInput formControlName="productName"/>
+        </mat-form-field>
+
+        <mat-form-field class="inputs">
+          <mat-label>Categoria</mat-label>
+          <input matInput formControlName="category"/>
+        </mat-form-field>
+
+        <mat-form-field class="inputs">
+          <mat-label>Preço de Venda</mat-label>
+          <input matInput formControlName="salePrice" type="number"/>
+        </mat-form-field>
+
+        <mat-form-field class="inputs">
+          <mat-label>Preço de Custo</mat-label>
+          <input matInput formControlName="costPrice" type="number"/>
+        </mat-form-field>
+
+        <mat-form-field class="inputs">
+          <mat-label>Quantidade em Estoque</mat-label>
+          <input matInput formControlName="stockQuantity" type="number"/>
+        </mat-form-field>
+      </form>
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+      <button mat-button (click)="dialogRef.close()">Cancelar</button>
+      <button mat-button (click)="onSave()" [disabled]="editForm.invalid">Salvar</button>
+    </mat-dialog-actions>

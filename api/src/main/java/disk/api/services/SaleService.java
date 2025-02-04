@@ -3,6 +3,7 @@ package disk.api.services;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
  
 
@@ -111,6 +112,7 @@ public class SaleService {
                         saleProduct.getProduct().getProductName(),
                         saleProduct.getProduct().getCategory(),
                         saleProduct.getProduct().getSalePrice(),
+                        Optional.ofNullable(saleProduct.getProduct().getCostPrice()),
                         saleProduct.getProduct().getStockQuantity(),
                         saleProduct.getProduct().getUnitMeasure()))
                     .collect(Collectors.toList());
@@ -122,6 +124,7 @@ public class SaleService {
                         saleProduct.getCombo().getComboName(),
                         Category.COMBO,
                         saleProduct.getCombo().getPrice(),
+                        Optional.empty(),
                         1,
                         "UN"))
                     .collect(Collectors.toList());

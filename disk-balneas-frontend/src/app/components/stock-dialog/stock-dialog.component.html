@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Detalhes do Produto</h2>
+<mat-dialog-content>
+  <mat-list>
+    <h3>Nome do Produto:</h3>
+    <mat-list-item>
+      {{ product.productName }}
+    </mat-list-item>
+
+    <h3>Categoria:</h3>
+    <mat-list-item>
+       {{ product.category }}
+    </mat-list-item>
+
+    <h3>Preço de Custo:</h3>
+    <mat-list-item>
+       R$ {{ product.costPrice | number:'1.2-2' }}
+    </mat-list-item>
+  </mat-list>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+
+  <button mat-button class="delete" (click)="onDelete()">DELETAR</button>
+
+  <button mat-button class="edit" (click)="onEdit()">EDITAR</button>
+
+</mat-dialog-actions>

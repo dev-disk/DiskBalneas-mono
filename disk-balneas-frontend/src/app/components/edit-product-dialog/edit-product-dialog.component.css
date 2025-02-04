@@ -1,0 +1,19 @@
+.inputs {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    margin-bottom: 15px;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.title {
+    display: inline-flex;
+    justify-content: center;
+}
+
+button {
+    width: 45%;
+}
