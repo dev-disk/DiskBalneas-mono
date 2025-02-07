@@ -1,5 +1,7 @@
 package disk.api.services;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,7 +47,9 @@ public class ComboService {
 
         Double price = ice.getSalePrice() + drink.getSalePrice() + energyDrink.getSalePrice()
                 + ((ice.getSalePrice() + drink.getSalePrice() + energyDrink.getSalePrice()) * 122 / 100);
-        combo.setPrice(price);
+        BigDecimal adjustedPrice = new BigDecimal(price).setScale(2, RoundingMode.HALF_UP);
+        
+        combo.setPrice(adjustedPrice.doubleValue());
 
         this.comboRepo.save(combo);
 

@@ -1,5 +1,7 @@
 package disk.api.services;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -39,19 +41,23 @@ public class ProductService {
 
             if (product.getCategory().equals(Category.WHISKY) || product.getCategory().equals(Category.VODKA)) {
                 Double dosePrice = (product.getSalePrice() * 70) / 1000;
-                product.setSalePrice(dosePrice);
+                BigDecimal adjustedDosePrice = new BigDecimal(dosePrice).setScale(2, RoundingMode.HALF_UP);
+                product.setSalePrice(adjustedDosePrice.doubleValue());
 
                 Double costPrice = (product.getCostPrice() * 70) / 1000;
-                product.setCostPrice(costPrice);
+                BigDecimal adjustedCostPrice = new BigDecimal(costPrice).setScale(2, RoundingMode.HALF_UP);
+                product.setCostPrice(adjustedCostPrice.doubleValue());
 
                 product.setStockQuantity(14);
             }
             if (product.getCategory().equals(Category.ENERGETICO)) {
                 Double dosePrice = (product.getSalePrice() * 100) / 2000;
-                product.setSalePrice(dosePrice);
+                BigDecimal adjustedDosePrice = new BigDecimal(dosePrice).setScale(2, RoundingMode.HALF_UP);
+                product.setSalePrice(adjustedDosePrice.doubleValue());
 
                 Double costPrice = (product.getCostPrice() * 100) / 2000;
-                product.setCostPrice(costPrice);
+                BigDecimal adjustedCostPrice = new BigDecimal(costPrice).setScale(2, RoundingMode.HALF_UP);
+                product.setCostPrice(adjustedCostPrice.doubleValue());
 
                 product.setStockQuantity(20);
             }
