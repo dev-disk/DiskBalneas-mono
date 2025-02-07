@@ -13,6 +13,9 @@ import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -28,7 +31,14 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody @Valid LoginRequest loginRequest) {
         
         var response = this.authService.login(loginRequest);
+
         return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
+    @GetMapping("/ping")
+    public String ping() {
+
+        return "Ok!";
     }
     
 }
