@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Detalhes da Venda</h2>
+<h2 mat-dialog-title>Detalhes da Venda:</h2>
 <mat-dialog-content>
   <mat-list>
     @for (item of groupedItems; track $index) {
@@ -7,6 +7,13 @@
   </mat-list>
 </mat-dialog-content>
 
+<h2 mat-dialog-title>Forma de Pagamento:</h2>
+<mat-dialog-content>
+    <mat-list-item>
+        {{ sale.payment }}
+    </mat-list-item>
+</mat-dialog-content>
+
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-button mat-dialog-close>Voltar</button>
 </mat-dialog-actions>

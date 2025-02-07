@@ -1,0 +1,10 @@
+mat-list-item {
+    padding: 0px;
+}
+
+h2[mat-dialog-title] {
+    padding-bottom: 0px;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+

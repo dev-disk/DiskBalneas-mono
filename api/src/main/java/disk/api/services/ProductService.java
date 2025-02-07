@@ -2,7 +2,7 @@ package disk.api.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -37,7 +37,7 @@ public class ProductService {
 
         if (product.getUnitMeasure().equals("DOSE")) {
 
-            if (product.getCategory().equals(Category.WHISKY)) {
+            if (product.getCategory().equals(Category.WHISKY) || product.getCategory().equals(Category.VODKA)) {
                 Double dosePrice = (product.getSalePrice() * 70) / 1000;
                 product.setSalePrice(dosePrice);
 
@@ -76,6 +76,7 @@ public class ProductService {
                         p.getProductName(),
                         p.getCategory(),
                         p.getSalePrice(),
+                        Optional.ofNullable(p.getCostPrice()),
                         p.getStockQuantity(),
                         p.getUnitMeasure()))
                 .collect(Collectors.toList());
