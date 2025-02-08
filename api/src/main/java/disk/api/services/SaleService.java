@@ -1,5 +1,7 @@
 package disk.api.services;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +24,6 @@ import disk.api.dtos.productDto.ProductResponse;
 import disk.api.dtos.responsesDto.ServiceResponse;
 import disk.api.dtos.saleDto.SaleRequest;
 import disk.api.dtos.saleDto.SaleResponse;
-import disk.api.infrastructure.security.TokenService;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -32,7 +33,6 @@ public class SaleService {
     private final SaleRepository saleRepo;
     private final ProductRepository productRepo;
     private final ComboRepository comboRepo;
-    private final TokenService tokenService;
 
     public ServiceResponse<String> createSale(SaleRequest request) {
 
@@ -84,6 +84,14 @@ public class SaleService {
                 Integer quantity = request.quantities().get(i);
                 sale.addCombo(combo, quantity);
             }
+        }
+
+        if (request.queroDelivery() == true) {
+            sale.calculateSubtotal();
+            Double total = sale.getSubtotal() * 1.099;
+
+            BigDecimal adjustedTotal = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP);
+            sale.setSubtotal(adjustedTotal.doubleValue());
         }
         
         sale.calculateSubtotal();
@@ -142,7 +150,8 @@ public class SaleService {
                     allResponses,
                     quantities,  
                     sale.getSubtotal(),
-                    sale.getPayment()
+                    sale.getPayment(),
+                    sale.getQueroDelivery()
                 );
             })
             .sorted((sA, sB) -> sB.date().compareTo(sA.date()))

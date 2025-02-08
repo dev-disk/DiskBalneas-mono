@@ -12,6 +12,7 @@ public record SaleResponse(
     List<ProductResponse> products,
     List<Integer> quantities,
     Double subtotal,
-    Payment payment
+    Payment payment,
+    Boolean queroDelivery
     
 ) {}

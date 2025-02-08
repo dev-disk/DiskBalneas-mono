@@ -39,6 +39,8 @@ public class Sale {
 
     private Payment payment;
 
+    private Boolean queroDelivery;
+
     public void calculateSubtotal() {
         if (saleProducts != null) {
             double total = 0.0;
