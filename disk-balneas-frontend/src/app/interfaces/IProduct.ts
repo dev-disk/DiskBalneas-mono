@@ -6,6 +6,7 @@ export interface IProduct {
   salePrice: number,
   costPrice: number,
   stockQuantity: number,
+  unitMeasure?: string
 }
 
 export interface IProductResponse extends IProduct {

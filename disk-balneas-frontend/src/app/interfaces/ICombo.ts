@@ -3,9 +3,10 @@ export interface ICombo {
   iceId: number,
   drinkId: number,
   energyDrinkId: number,
+  price?: number,
+  doseQuantity: number
 }
 
 export interface IComboResponse extends ICombo {
   id: number,
-  price: number
 }

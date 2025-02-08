@@ -13,7 +13,11 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Gelo</mat-label>
-        <mat-select [(ngModel)]="selectedGelo" name="gelo">
+        <mat-select
+          [(ngModel)]="selectedIce"
+          name="gelo"
+          (selectionChange)="updateComboPrice()"
+        >
           @for (produto of iceProducts; track produto) {
           <mat-option [value]="produto.id">{{
             produto.productName
@@ -21,19 +25,43 @@
           }
         </mat-select>
       </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Whisky</mat-label>
-        <mat-select [(ngModel)]="selectedWhisky" name="whisky">
-          @for (produto of drinkProducts; track produto) {
-          <mat-option [value]="produto.id">{{
-            produto.productName
-          }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <div class="dose-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Dose</mat-label>
+          <mat-select
+            [(ngModel)]="selectedDrink"
+            name="bebida"
+            (selectionChange)="updateComboPrice()"
+          >
+            @for (produto of drinkProducts; track produto) {
+            <mat-option [value]="produto.id">{{
+              produto.productName
+            }}</mat-option>
+            }
+          </mat-select>
+          <mat-hint
+            >Valor da dose: R$ {{ dosePrice }}
+          </mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="quantity-field">
+          <mat-label>Quantidade de Doses</mat-label>
+          <input
+            matInput
+            type="number"
+            min="1"
+            [(ngModel)]="doseQuantity"
+            name="doseQuantity"
+            (ngModelChange)="handleQuantityChange($event)"
+          />
+        </mat-form-field>
+      </div>
       <mat-form-field appearance="outline">
         <mat-label>Energético</mat-label>
-        <mat-select [(ngModel)]="selectedEnergetico" name="energetico">
+        <mat-select
+          [(ngModel)]="selectedEnergyDrink"
+          name="energetico"
+          (selectionChange)="updateComboPrice()"
+        >
           @for (produto of energyDrinksProducts; track produto) {
           <mat-option [value]="produto.id">{{
             produto.productName
@@ -41,16 +69,20 @@
           }
         </mat-select>
       </mat-form-field>
+      <div class="combo-price-container" align="end">
+        <span class="combo-price-label">Total: </span>
+        <span class="combo-price-value">R$ {{ comboPrice.toFixed(2) }}</span>
+      </div>
     </mat-dialog-content>
     <button
       mat-fab
       extended
       (click)="createCombo()"
       [disabled]="
-        comboName == '' &&
-        selectedGelo == '' &&
-        selectedEnergetico == '' &&
-        selectedWhisky == ''
+        comboName == '' ||
+        selectedIce == '' ||
+        selectedEnergyDrink == '' ||
+        selectedDrink == ''
       "
     >
       <mat-icon>add</mat-icon>

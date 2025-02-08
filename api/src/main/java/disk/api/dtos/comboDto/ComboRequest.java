@@ -4,5 +4,6 @@ public record ComboRequest(
     String comboName,
     Long iceId,
     Long drinkId,
-    Long energyDrinkId
+    Long energyDrinkId,
+    Double doseQuantity
 ) {}

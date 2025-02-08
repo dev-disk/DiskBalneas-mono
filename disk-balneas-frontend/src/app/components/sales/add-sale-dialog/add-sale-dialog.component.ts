@@ -199,13 +199,13 @@ export class AddSaleDialogComponent implements OnInit, OnDestroy {
             product: <IProductResponse> {
               id: combo.id,
               productName: combo.comboName,
-              salePrice: combo.price,
+              salePrice: combo.price!,
               category: Category.SEM_CATEGORIA,
               stockQuantity: 20,
               unitMeasure: "UN"
             },
             quantity: 1,
-            totalPrice: combo.price,
+            totalPrice: combo.price!,
           };
 
           console.log(comboProduct)

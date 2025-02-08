@@ -19,3 +19,17 @@ mat-form-field {
 button {
   margin-top: 16px;
 }
+
+.combo-price-container span {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.dose-container {
+  display: flex;
+  gap: 16px;
+}
+
+.quantity-field {
+  flex: 0 0 100px;
+}

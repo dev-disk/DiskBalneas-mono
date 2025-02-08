@@ -6,5 +6,6 @@ public record ComboResponse(
     Long iceId,
     Long drinkId,
     Long energyDrinkId,
-    Double price
+    Double price,
+    Double doseQuantity
 ) {}
