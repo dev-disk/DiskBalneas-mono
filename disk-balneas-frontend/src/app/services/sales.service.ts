@@ -17,10 +17,11 @@ export class SalesService {
     return this.http.get<IServiceResponse<ISale[]>>(this.apiUrl);
   }
 
-  createSale(productIds: number[], quantities: number[]): Observable<any> {
+  createSale(productIds: number[], quantities: number[], queroDelivery: boolean): Observable<any> {
     const payload = {
       productIds,
       quantities,
+      queroDelivery
     };
     return this.http.post<any>(this.apiUrl, payload);
   }
