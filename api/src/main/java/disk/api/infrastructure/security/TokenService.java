@@ -5,8 +5,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.time.Instant;
@@ -16,19 +14,12 @@ import java.time.ZoneOffset;
 import org.springframework.stereotype.Service;
 
 import disk.api.domain.entities.User;
-import disk.api.domain.repositories.UserRepository;
 
 @Service
 public class TokenService {
 
     @Value("${api.security.token.secret}")
     private String secret;
-    private final UserRepository userRepo;
-    private static final Logger logger = LoggerFactory.getLogger(TokenService.class);
-
-    public TokenService(UserRepository userRepo) {
-        this.userRepo = userRepo;
-    }
 
     public String generateToken(User user) {
         try {
