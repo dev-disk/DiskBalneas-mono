@@ -1,4 +1,5 @@
 import { Category } from "../enums/Category";
+import { UnitMeasure } from "../enums/UnitMeasure";
 
 export interface IProduct {
   category: Category,
@@ -6,7 +7,7 @@ export interface IProduct {
   salePrice: number,
   costPrice: number,
   stockQuantity: number,
-  unitMeasure?: string
+  unitMeasure?: UnitMeasure
 }
 
 export interface IProductResponse extends IProduct {

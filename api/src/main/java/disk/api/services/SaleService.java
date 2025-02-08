@@ -17,6 +17,7 @@ import disk.api.domain.entities.Product;
 import disk.api.domain.entities.Sale;
 import disk.api.domain.entities.SaleProduct;
 import disk.api.domain.enums.Category;
+import disk.api.domain.enums.UnitMeasure;
 import disk.api.domain.repositories.ComboRepository;
 import disk.api.domain.repositories.ProductRepository;
 import disk.api.domain.repositories.SaleRepository;
@@ -134,7 +135,7 @@ public class SaleService {
                         saleProduct.getCombo().getPrice(),
                         Optional.empty(),
                         1,
-                        "UN"))
+                        UnitMeasure.UNIDADE))
                     .collect(Collectors.toList());
                 
                 List<ProductResponse> allResponses = new ArrayList<>();

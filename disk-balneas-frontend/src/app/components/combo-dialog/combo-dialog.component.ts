@@ -16,6 +16,7 @@ import { ICombo, IComboResponse } from '../../interfaces/ICombo';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IServiceResponse } from '../../interfaces/IServiceResponse';
 import { IProductResponse } from '../../interfaces/IProduct';
+import { UnitMeasure } from '../../enums/UnitMeasure';
 
 @Component({
   selector: 'app-combo-dialog',
@@ -64,10 +65,10 @@ export class ComboDialogComponent implements OnInit {
 
       this.iceProducts = produtos.filter((p) => p.category === Category.GELO);
       this.drinkProducts = produtos.filter(
-        (p) => (p.category === Category.WHISKY || p.category === Category.VODKA) && p.unitMeasure === 'DOSE'
+        (p) => (p.category === Category.WHISKY || p.category === Category.VODKA) && p.unitMeasure === UnitMeasure.DOSE
       );
       this.energyDrinksProducts = produtos.filter(
-        (p) => p.category === Category.ENERGETICO && p.unitMeasure === 'DOSE'
+        (p) => p.category === Category.ENERGETICO && p.unitMeasure === UnitMeasure.DOSE
       );
     });
   }

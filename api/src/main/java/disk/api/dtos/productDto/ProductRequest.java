@@ -1,6 +1,7 @@
 package disk.api.dtos.productDto;
 
 import disk.api.domain.enums.Category;
+import disk.api.domain.enums.UnitMeasure;
 
 public record ProductRequest(
 
@@ -9,6 +10,6 @@ public record ProductRequest(
  Double salePrice,
  Double costPrice,
  Integer stockQuantity,
- String unitMeasure
+ UnitMeasure unitMeasure
  
 ) {}
