@@ -1,7 +1,7 @@
 package disk.api.domain.entities;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import disk.api.domain.enums.Payment;
@@ -30,7 +30,7 @@ public class Sale {
     @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", initialValue = 1, allocationSize = 1)
     private Long id;
 
-    private Date date;
+    private ZonedDateTime date;
 
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
     private List<SaleProduct> saleProducts = new ArrayList<>();

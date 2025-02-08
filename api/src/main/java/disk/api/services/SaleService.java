@@ -2,8 +2,8 @@ package disk.api.services;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -63,7 +63,7 @@ public class SaleService {
         
 
         Sale sale = new Sale();
-        sale.setDate(new Date());
+        sale.setDate(ZonedDateTime.now());
         sale.setPayment(request.payment());
 
         if (!products.isEmpty()) {
