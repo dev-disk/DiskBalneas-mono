@@ -160,7 +160,7 @@ export class AddSaleDialogComponent implements OnInit, OnDestroy {
     );
 
     if (this.isDeliveryChecked) {
-      total = total - (total * 0.05)
+      total = total + (total * 0.099)
     }
   
     return total;
@@ -172,7 +172,7 @@ export class AddSaleDialogComponent implements OnInit, OnDestroy {
     const productIds = this.selectedProducts.map((item) => item.product.id!);
     const quantities = this.selectedProducts.map((item) => item.quantity);
 
-    this.salesService.createSale(productIds, quantities).subscribe({
+    this.salesService.createSale(productIds, quantities, this.isDeliveryChecked).subscribe({
       next: (response) => {
         this.dialogRef.close({
           success: true,

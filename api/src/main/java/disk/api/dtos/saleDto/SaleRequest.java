@@ -9,6 +9,7 @@ public record SaleRequest(
 
     List<Long> productIds,
     List<Integer> quantities,
-    Payment payment
+    Payment payment,
+    Boolean queroDelivery
 
 ) {}
