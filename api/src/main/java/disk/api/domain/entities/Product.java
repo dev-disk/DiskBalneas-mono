@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import disk.api.domain.enums.Category;
+import disk.api.domain.enums.UnitMeasure;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,7 +40,7 @@ public class Product {
     
     private Integer stockQuantity;
     
-    private String unitMeasure;
+    private UnitMeasure unitMeasure;
 
     private LocalDateTime deletedAt;
 

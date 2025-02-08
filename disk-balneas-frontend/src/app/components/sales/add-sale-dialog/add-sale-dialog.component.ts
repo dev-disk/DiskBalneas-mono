@@ -28,6 +28,7 @@ import { ComboDialogComponent } from '../../combo-dialog/combo-dialog.component'
 import { IComboResponse } from '../../../interfaces/ICombo';
 import { Category } from '../../../enums/Category';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { UnitMeasure } from '../../../enums/UnitMeasure';
 
 
 @Component({
@@ -76,7 +77,7 @@ export class AddSaleDialogComponent implements OnInit, OnDestroy {
       map((value) => {
         const filtered = this.options.filter(
           (option) =>
-            option.unitMeasure !== "DOSE" &&
+            option.unitMeasure !== UnitMeasure.DOSE &&
              !this.selectedProducts.some((item) => item.product.id === option.id)
         );
 
@@ -202,7 +203,7 @@ export class AddSaleDialogComponent implements OnInit, OnDestroy {
               salePrice: combo.price!,
               category: Category.SEM_CATEGORIA,
               stockQuantity: 20,
-              unitMeasure: "UN"
+              unitMeasure: UnitMeasure.UNIDADE
             },
             quantity: 1,
             totalPrice: combo.price!,

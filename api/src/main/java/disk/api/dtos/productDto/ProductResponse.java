@@ -3,6 +3,7 @@ package disk.api.dtos.productDto;
 import java.util.Optional;
 
 import disk.api.domain.enums.Category;
+import disk.api.domain.enums.UnitMeasure;
 
 
 public record ProductResponse(
@@ -13,6 +14,6 @@ public record ProductResponse(
     Double salePrice,
     Optional <Double> costPrice,
     Integer stockQuantity,
-    String unitMeasure
+    UnitMeasure unitMeasure
     
 ) {}

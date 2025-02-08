@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import disk.api.domain.entities.Product;
 import disk.api.domain.enums.Category;
+import disk.api.domain.enums.UnitMeasure;
 import disk.api.domain.repositories.ProductRepository;
 import disk.api.dtos.productDto.ProductRequest;
 import disk.api.dtos.productDto.ProductResponse;
@@ -35,7 +36,7 @@ public class ProductService {
         product.setStockQuantity(ProductRegister.stockQuantity());
         product.setUnitMeasure(ProductRegister.unitMeasure());
 
-        if (product.getUnitMeasure().equals("DOSE")) {
+        if (product.getUnitMeasure().equals(UnitMeasure.DOSE)) {
 
             if (product.getCategory().equals(Category.WHISKY) || product.getCategory().equals(Category.VODKA)) {
                 Double dosePrice = (product.getSalePrice() * 70) / 1000;

@@ -18,6 +18,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductService } from '../../services/product.service';
 import { Category } from '../../enums/Category';
+import { UnitMeasure } from '../../enums/UnitMeasure';
 
 @Component({
   selector: 'app-products',
@@ -49,7 +50,15 @@ export class ProductsComponent {
     .map(([key, value]) => ({
       key: key,
       value: value,
-      label: this.formatCategoryLabel(key),
+      label: this.formatEnumLabel(key),
+    }));
+
+  unitMeasureArray = Object.entries(UnitMeasure)
+    .filter(([key]) => isNaN(Number(key)))
+    .map(([key, value]) => ({
+      key: key,
+      value: value,
+      label: this.formatEnumLabel(key),
     }));
 
   constructor(
@@ -60,7 +69,7 @@ export class ProductsComponent {
     this.initializeForm();
   }
 
-  private formatCategoryLabel(key: string): string {
+  private formatEnumLabel(key: string): string {
     return key
       .replace(/_/g, ' ')
       .toLowerCase()

@@ -70,9 +70,11 @@
         <mat-label>Unidade de Medida</mat-label>
         <mat-form-field appearance="outline">
           <mat-select formControlName="unitMeasure">
-            <mat-option value="UN">Unidade</mat-option>
-            <mat-option value="DOSE">Dose</mat-option>
-            <mat-option value="L">Litro</mat-option>
+            @for (unitMeasure of unitMeasureArray; track unitMeasure.key) {
+              <mat-option [value]="unitMeasure.value">{{
+                unitMeasure.label
+              }}</mat-option>
+              }
           </mat-select>
           <mat-error
             *ngIf="productForm.get('unitMeasure')?.errors?.['required']"
