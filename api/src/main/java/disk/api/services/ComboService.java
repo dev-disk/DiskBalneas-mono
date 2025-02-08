@@ -44,11 +44,22 @@ public class ComboService {
         combo.setIce(ice);
         combo.setDrink(drink);
         combo.setEnergyDrink(energyDrink);
+        combo.setDose(request.doseQuantity());
 
-        Double price = ice.getSalePrice() + drink.getSalePrice() + energyDrink.getSalePrice()
-                + ((ice.getSalePrice() + drink.getSalePrice() + energyDrink.getSalePrice()) * 122 / 100);
-        BigDecimal adjustedPrice = new BigDecimal(price).setScale(2, RoundingMode.HALF_UP);
-        
+        double iceCost = ice.getSalePrice();
+        double energyCost = energyDrink.getSalePrice();
+        double drinkCostPerDose = drink.getSalePrice();
+
+        double baseComboCost = iceCost + energyCost + drinkCostPerDose;
+
+        double additionalDosesCost = drinkCostPerDose * Math.max(0, request.doseQuantity() - 1);
+
+        double baseComboWithProfit = baseComboCost * 1.846;
+        double additionalDosesWithProfit = additionalDosesCost * 1.428;
+
+        double totalPrice = baseComboWithProfit + additionalDosesWithProfit;
+
+        BigDecimal adjustedPrice = new BigDecimal(totalPrice).setScale(2, RoundingMode.HALF_UP);
         combo.setPrice(adjustedPrice.doubleValue());
 
         this.comboRepo.save(combo);
@@ -70,7 +81,9 @@ public class ComboService {
                 combo.getComboName(),
                 combo.getIce().getId(),
                 combo.getDrink().getId(),
-                combo.getEnergyDrink().getId(), combo.getPrice());
+                combo.getEnergyDrink().getId(), 
+                combo.getPrice(),
+                combo.getDose());
 
         response.setData(comboResponse);
         response.setMessage("Combo criado com sucesso.");
@@ -89,7 +102,8 @@ public class ComboService {
                         combo.getIce().getId(),
                         combo.getDrink().getId(),
                         combo.getEnergyDrink().getId(),
-                        combo.getPrice()))
+                        combo.getPrice(),
+                        combo.getDose()))
 
                 .collect(Collectors.toList());
 

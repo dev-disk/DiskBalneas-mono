@@ -40,10 +40,13 @@ export class ComboDialogComponent implements OnInit {
   drinkProducts: IProductResponse[] = [];
   energyDrinksProducts: IProductResponse[] = [];
 
-  selectedGelo: string = '';
-  selectedWhisky: string = '';
-  selectedEnergetico: string = '';
+  selectedIce: string = '';
+  selectedDrink: string = '';
+  selectedEnergyDrink: string = '';
   comboName: string = '';
+  comboPrice: number = 0;
+  dosePrice: number = 0;
+  doseQuantity: number = 1;
 
   constructor(
     private productService: ProductService,
@@ -69,12 +72,40 @@ export class ComboDialogComponent implements OnInit {
     });
   }
 
+  handleQuantityChange(value: number) {
+    this.doseQuantity = value < 1 ? 1 : value;
+    this.updateComboPrice();
+  }
+
+  updateComboPrice() {
+    const ice = this.iceProducts.find((p) => p.id === Number(this.selectedIce));
+    const drink = this.drinkProducts.find((p) => p.id === Number(this.selectedDrink));
+    const energyDrink = this.energyDrinksProducts.find((p) => p.id === Number(this.selectedEnergyDrink));
+    
+    const iceCost = ice?.salePrice || 0;
+    const energyCost = energyDrink?.salePrice || 0;
+    const drinkCostPerDose = drink?.salePrice || 0;
+    this.dosePrice = drinkCostPerDose;
+  
+    const baseComboCost = iceCost + energyCost + drinkCostPerDose;
+    
+    const additionalDosesCost = drinkCostPerDose * Math.max(0, this.doseQuantity - 1);
+  
+    const baseComboWithProfit = baseComboCost * 1.846;
+    const additionalDosesWithProfit = additionalDosesCost * 1.428;
+  
+    const totalComboPrice = baseComboWithProfit + additionalDosesWithProfit;
+  
+    this.comboPrice = parseFloat(totalComboPrice.toFixed(4));
+  }
+
   createCombo() {
     const combo: ICombo = {
       comboName: this.comboName,
-      iceId: Number(this.selectedGelo),
-      drinkId: Number(this.selectedWhisky),
-      energyDrinkId: Number(this.selectedEnergetico),
+      iceId: Number(this.selectedIce),
+      drinkId: Number(this.selectedDrink),
+      energyDrinkId: Number(this.selectedEnergyDrink),
+      doseQuantity: this.doseQuantity
     };
   
     this.comboService.addCombo(combo).subscribe({
