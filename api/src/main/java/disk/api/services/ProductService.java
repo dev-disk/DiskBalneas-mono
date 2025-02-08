@@ -16,7 +16,6 @@ import disk.api.domain.repositories.ProductRepository;
 import disk.api.dtos.productDto.ProductRequest;
 import disk.api.dtos.productDto.ProductResponse;
 import disk.api.dtos.responsesDto.ServiceResponse;
-import disk.api.infrastructure.security.TokenService;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -24,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 public class ProductService {
 
     private final ProductRepository productRepo;
-    private final TokenService tokenService;
 
     public ServiceResponse<String> newProduct(ProductRequest ProductRegister) {
         var response = new ServiceResponse<String>();
