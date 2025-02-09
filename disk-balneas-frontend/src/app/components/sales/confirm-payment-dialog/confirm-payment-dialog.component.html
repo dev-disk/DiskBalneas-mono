@@ -1,16 +1,14 @@
-<h3 mat-dialog-title>Total a Pagar</h3>
-<h2 mat-dialog-title>R$ {{products.totalPrice}}</h2>
+<h2 mat-dialog-title>Total a Pagar</h2>
+<h3 mat-dialog-title class="subtitle">R$ {{products.totalPrice}}</h3>
 
-<form>
-  <mat-form-field>
-    <mat-select [(ngModel)]="selectedPayment" name="pagamento">
-      @for (payment of paymentArray; track payment.key) {
-      <mat-option [value]="payment.value">{{
-        payment.label
-        }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
+<form [formGroup]="form">
+  <mat-radio-group formControlName="payment" name="pagamento">
+    @for (payment of paymentArray; track payment.key) {
+      <mat-radio-button [value]="payment.value">
+        {{payment.label}}
+      </mat-radio-button>
+    }
+  </mat-radio-group>
 </form>
 
 <mat-dialog-actions align="end">

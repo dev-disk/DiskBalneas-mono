@@ -1,5 +1,5 @@
 import { Component, Inject, inject } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,6 +11,7 @@ import { AddSaleDialogComponent } from '../add-sale-dialog/add-sale-dialog.compo
 import { Payment } from '../../../enums/Payment';
 import { MatSelectModule } from '@angular/material/select';
 import { ISale } from '../../../interfaces/ISale';
+import { MatRadioModule } from '@angular/material/radio';
 
 interface ProductData {
   productIds: number[];
@@ -28,7 +29,8 @@ interface ProductData {
     MatButtonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatSelectModule
+    MatSelectModule,
+    MatRadioModule
   ],
   templateUrl: './confirm-payment-dialog.component.html',
   styleUrl: './confirm-payment-dialog.component.css'
@@ -38,13 +40,20 @@ interface ProductData {
 
 export class ConfirmPaymentDialogComponent {
 
+  form: FormGroup;
+  selectedPayment: FormControl;
+
   constructor(
     private dialogRef: MatDialogRef<AddSaleDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public products: ProductData ,
+    @Inject(MAT_DIALOG_DATA) public products: ProductData,
     private salesService: SalesService
-  ) {}
+  ) {
+    this.selectedPayment = new FormControl();
+    this.form = new FormGroup({
+      payment: this.selectedPayment
+    });
+  }
 
-  selectedPayment: Payment | null = null;
 
   paymentArray = Object.entries(Payment)
       .filter(([key]) => isNaN(Number(key)))
@@ -71,7 +80,7 @@ export class ConfirmPaymentDialogComponent {
     const sale: ISale = {
       productIds: productIds,
       quantities: quantities,
-      payment: this.selectedPayment!,
+      payment: this.selectedPayment.value,
       queroDelivery: queroDelivery
 
     }
