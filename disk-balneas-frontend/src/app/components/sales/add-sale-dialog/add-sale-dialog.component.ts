@@ -29,6 +29,7 @@ import { IComboResponse } from '../../../interfaces/ICombo';
 import { Category } from '../../../enums/Category';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { UnitMeasure } from '../../../enums/UnitMeasure';
+import { ConfirmPaymentDialogComponent } from '../confirm-payment-dialog/confirm-payment-dialog.component';
 
 
 @Component({
@@ -167,24 +168,27 @@ export class AddSaleDialogComponent implements OnInit, OnDestroy {
     return total;
   }
 
-  submitSale() {
-    if (this.selectedProducts.length === 0) return;
-
+  openConfirmPaymentDialog() {
     const productIds = this.selectedProducts.map((item) => item.product.id!);
     const quantities = this.selectedProducts.map((item) => item.quantity);
+    const totalPrice = this.getTotalPrice().toFixed(2);
 
-    this.salesService.createSale(productIds, quantities, this.isDeliveryChecked).subscribe({
-      next: (response) => {
-        this.dialogRef.close({
-          success: true,
-          sale: response,
-        });
-      },
-      error: (error) => {
-        console.error('Erro ao criar venda:', error);
-      },
-    });
+    const products = {
+      productIds: productIds, 
+      quantities: quantities,
+      totalPrice: totalPrice,
+      queroDelivery: this.isDeliveryChecked
+    }
+
+    const dialogRef = this.dialog.open(ConfirmPaymentDialogComponent, {data: products});
+
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+
+
   }
+
 
   openAddComboDialog() {
     const dialogRef = this.dialog.open(ComboDialogComponent);

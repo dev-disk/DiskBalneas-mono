@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ISale } from '../interfaces/ISale';
 import { environment } from '../../environments/environment';
 import { IServiceResponse } from '../interfaces/IServiceResponse';
+import { Payment } from '../enums/Payment';
 
 @Injectable({
   providedIn: 'root',
@@ -17,12 +18,8 @@ export class SalesService {
     return this.http.get<IServiceResponse<ISale[]>>(this.apiUrl);
   }
 
-  createSale(productIds: number[], quantities: number[], queroDelivery: boolean): Observable<any> {
-    const payload = {
-      productIds,
-      quantities,
-      queroDelivery
-    };
-    return this.http.post<any>(this.apiUrl, payload);
+  createSale(sale: ISale): Observable<any> {
+      
+    return this.http.post<ISale>(this.apiUrl, sale);
   }
 }
