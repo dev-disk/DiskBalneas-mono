@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
-import { ISale } from '../../../interfaces/ISale';
+import { ISale, ISaleResponse } from '../../../interfaces/ISale';
 import { MatButtonModule } from '@angular/material/button';
 
 interface GroupedItem {
@@ -25,7 +25,7 @@ export class SaleDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<SaleDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public sale: ISale
+    @Inject(MAT_DIALOG_DATA) public sale: ISaleResponse
   ) {
     this.groupItems();
   }

@@ -1,0 +1,35 @@
+h2, h3 {
+    display: flex;
+    padding: 0px;
+    justify-content: center;
+}
+h2[mat-dialog-title] {
+    margin-top: 15px;
+    margin-bottom: 0;
+    font-size: 1.50rem;
+  }
+  
+h3[mat-dialog-title].subtitle {
+    color: #b3b3b3; 
+    font-size: 1.0em; 
+    font-weight: normal; 
+    margin-top: -10px; 
+}
+
+form {
+    width: 400px; 
+ 
+}
+
+mat-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 15px 15px;
+
+}
+
+mat-dialog-actions {
+    display: flex;
+    justify-content: space-around !important;
+}

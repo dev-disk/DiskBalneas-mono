@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ISale } from '../interfaces/ISale';
+import { ISale, ISaleResponse } from '../interfaces/ISale';
 import { environment } from '../../environments/environment';
 import { IServiceResponse } from '../interfaces/IServiceResponse';
+import { Payment } from '../enums/Payment';
 
 @Injectable({
   providedIn: 'root',
@@ -13,16 +14,11 @@ export class SalesService {
 
   constructor(private http: HttpClient) {}
 
-  getAllSales(): Observable<IServiceResponse<ISale[]>> {
-    return this.http.get<IServiceResponse<ISale[]>>(this.apiUrl);
+  getAllSales(): Observable<IServiceResponse<ISaleResponse[]>> {
+    return this.http.get<IServiceResponse<ISaleResponse[]>>(this.apiUrl);
   }
 
-  createSale(productIds: number[], quantities: number[], queroDelivery: boolean): Observable<any> {
-    const payload = {
-      productIds,
-      quantities,
-      queroDelivery
-    };
-    return this.http.post<any>(this.apiUrl, payload);
+  createSale(sale: ISale): Observable<any> {
+    return this.http.post<ISale>(this.apiUrl, sale);
   }
 }

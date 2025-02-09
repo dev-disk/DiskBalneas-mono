@@ -20,7 +20,7 @@ import { SaleDialogComponent } from '../../components/sales/sale-dialog/sale-dia
 import { AddSaleDialogComponent } from '../../components/sales/add-sale-dialog/add-sale-dialog.component';
 import { Subject, takeUntil } from 'rxjs';
 import { SalesService } from '../../services/sales.service';
-import { ISale } from '../../interfaces/ISale';
+import { ISale, ISaleResponse } from '../../interfaces/ISale';
 import { CommonModule } from '@angular/common';
 import { ReplacePipe } from '../../helpers/replace.pipe';
 
@@ -98,7 +98,7 @@ export class SalesComponent implements AfterViewInit, OnDestroy {
     },
   } as const;
 
-  private formatProductsDisplay(sale: ISale): string {
+  private formatProductsDisplay(sale: ISaleResponse): string {
     if (!sale?.products.length) return '0 items';
     
     return sale.products.map((product, index) => {
