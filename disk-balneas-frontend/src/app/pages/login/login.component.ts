@@ -14,6 +14,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { HttpStatusCode } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -34,7 +35,8 @@ export class LoginComponent {
   constructor(
     private loginService: LoginService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar
   ) {
     this.initializeForm();
   }
@@ -55,9 +57,17 @@ export class LoginComponent {
         if (response.status === 'OK') {
           this.router.navigate(['/sales']);
         }
+        this.snackBar.open('Usuário Logado com Sucesso!', 'Fechar', {
+          duration: 3000,
+        });
       },
       error: (error) => {
         console.error('Credenciais Inválidas!', error);
+        this.snackBar.open(
+          'Credenciais inválidas!', 'Fechar', {
+            duration: 3000,
+          }
+        )
       },
     });
   }

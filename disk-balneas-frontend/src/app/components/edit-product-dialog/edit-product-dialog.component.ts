@@ -7,6 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IProduct, IProductResponse } from '../../interfaces/IProduct';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-edit-product-dialog',
@@ -28,7 +30,9 @@ export class EditProductDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<EditProductDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: IProductResponse
+    @Inject(MAT_DIALOG_DATA) public data: IProductResponse,
+    private productService: ProductService,
+    private snackBar: MatSnackBar
   ) {
     this.editForm = new FormGroup({
       productName: new FormControl(data.productName),
@@ -40,6 +44,14 @@ export class EditProductDialogComponent {
   }
 
   onSave(): void {
+    const formValue = this.editForm.value;
+    const updateProducts: IProduct = {
+      productName:  formValue.productName,
+      category: formValue.category,
+      costPrice: formValue.costPrice,
+      salePrice: formValue.salePrice,
+      stockQuantity: formValue.stockQuantity
+    }
     if (this.editForm.valid) {
       const updatedProduct: IProduct = {
         ...this.editForm.value,
@@ -48,5 +60,25 @@ export class EditProductDialogComponent {
       };
       this.dialogRef.close(updatedProduct);
     }
+
+    this.productService.updateProduct(this.data.id, updateProducts).subscribe({
+      next: (response) => {
+        console.log('Produto atualizado com sucesso', response);
+        this.dialogRef.close(true);
+        this.snackBar.open(
+          'Produto Atualizado com sucesso!', 'Fechar', {
+            duration: 3000,
+          }
+        )
+      },
+      error: (error) => {
+        console.error('Falha na atualização do produto', error);
+        this.snackBar.open(
+          'Falha em editar o produto.', 'Fechar', {
+            duration: 3000,
+          }
+        )
+      }
+    });
   }
 }
