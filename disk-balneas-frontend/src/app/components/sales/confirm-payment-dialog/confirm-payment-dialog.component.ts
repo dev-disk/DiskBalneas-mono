@@ -12,6 +12,7 @@ import { Payment } from '../../../enums/Payment';
 import { MatSelectModule } from '@angular/material/select';
 import { ISale } from '../../../interfaces/ISale';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface ProductData {
   productIds: number[];
@@ -46,7 +47,8 @@ export class ConfirmPaymentDialogComponent {
   constructor(
     private dialogRef: MatDialogRef<AddSaleDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public products: ProductData,
-    private salesService: SalesService
+    private salesService: SalesService,
+    private snackBar: MatSnackBar
   ) {
     this.selectedPayment = new FormControl();
     this.form = new FormGroup({
@@ -91,9 +93,18 @@ export class ConfirmPaymentDialogComponent {
           success: true,
           sale: response,
         });
+        this.snackBar.open('Venda realizada com sucesso!', 'Fechar', {
+          duration: 3000,
+        });
       },
       error: (error) => {
         console.error('Erro ao criar venda:', error);
+        this.snackBar.open(
+          'Erro ao executar a venda. Tente novamente.', 'Fechar', {
+            duration: 3000,
+          }
+        )
+
       },
     });
   }

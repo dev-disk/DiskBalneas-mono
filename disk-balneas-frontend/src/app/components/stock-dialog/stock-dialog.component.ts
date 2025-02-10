@@ -7,6 +7,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { EditProductDialogComponent } from '../edit-product-dialog/edit-product-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-stock-dialog',
@@ -27,7 +28,8 @@ export class StockDialogComponent {
     public dialogRef: MatDialogRef<StockDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IProductResponse,
     private productService: ProductService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {
     this.product = data;
   }
@@ -43,9 +45,17 @@ export class StockDialogComponent {
         this.productService.deleteProduct(this.product.id).subscribe({
           next: () => {
             this.dialogRef.close(true);
+            this.snackBar.open('Produto Excluído com sucesso!', 'Fechar', {
+              duration: 3000,
+            });
           },
           error: (error) => {
             console.error('Delete failed', error);
+            this.snackBar.open(
+              'Erro ao Deletar produto.', 'Fechar', {
+                duration: 3000,
+              }
+            )
           }
         });
       }
@@ -67,16 +77,6 @@ export class StockDialogComponent {
           costPrice: result.costPrice,
           stockQuantity: result.stockQuantity
         };
-  
-        this.productService.updateProduct(this.product.id, updatedProduct).subscribe({
-          next: (response) => {
-            console.log('Produto atualizado com sucesso', response);
-            this.dialogRef.close(true);
-          },
-          error: (error) => {
-            console.error('Falha na atualização do produto', error);
-          }
-        });
       }
     });
   }
