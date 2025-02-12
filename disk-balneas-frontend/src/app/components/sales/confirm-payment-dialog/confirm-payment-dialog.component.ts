@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -33,6 +33,7 @@ interface ProductData {
     MatSelectModule,
     MatRadioModule
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './confirm-payment-dialog.component.html',
   styleUrl: './confirm-payment-dialog.component.css'
 
@@ -43,6 +44,7 @@ export class ConfirmPaymentDialogComponent {
 
   form: FormGroup;
   selectedPayment: FormControl;
+  private readonly cdr = inject(ChangeDetectorRef);
 
   constructor(
     private dialogRef: MatDialogRef<AddSaleDialogComponent>,
@@ -96,6 +98,7 @@ export class ConfirmPaymentDialogComponent {
         this.snackBar.open('Venda realizada com sucesso!', 'Fechar', {
           duration: 3000,
         });
+        this.cdr.markForCheck();
       },
       error: (error) => {
         console.error('Erro ao criar venda:', error);
@@ -103,10 +106,9 @@ export class ConfirmPaymentDialogComponent {
           'Erro ao executar a venda. Tente novamente.', 'Fechar', {
             duration: 3000,
           }
-        )
-
+        );
+        this.cdr.markForCheck();
       },
     });
   }
-
 }

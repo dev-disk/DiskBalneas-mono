@@ -187,6 +187,15 @@ export class AddSaleDialogComponent implements OnInit, OnDestroy {
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.destroy$))
+      .subscribe((result) => {
+        if (result?.success) {
+          this.selectedProducts = [];
+          this.isDeliveryChecked = false;
+          this.cdr.markForCheck();
+
+          this.dialogRef.close({ success: true});
+        }
+      })
 
 
   }
