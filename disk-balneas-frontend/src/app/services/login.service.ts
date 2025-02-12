@@ -32,7 +32,6 @@ export class LoginService {
 
   public isAuthenticated(): boolean {
     const token = this.getToken();
-    console.log('aqui');
     return !!token && !this.jwtHelper.isTokenExpired(token);
   }
 

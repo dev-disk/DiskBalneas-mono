@@ -210,7 +210,6 @@ export class AddSaleDialogComponent implements OnInit, OnDestroy {
       .subscribe((result: { success: boolean; combo: IComboResponse }) => {
         if (result?.success && result.combo) {
           const combo: IComboResponse = result.combo;
-          console.log("Aqui", combo)
           const comboProduct = {
             product: <IProductResponse> {
               id: combo.id,
