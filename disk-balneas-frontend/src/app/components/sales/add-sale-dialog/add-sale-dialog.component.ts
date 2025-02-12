@@ -79,7 +79,8 @@ export class AddSaleDialogComponent implements OnInit, OnDestroy {
         const filtered = this.options.filter(
           (option) =>
             option.unitMeasure !== UnitMeasure.DOSE &&
-             !this.selectedProducts.some((item) => item.product.id === option.id)
+             !this.selectedProducts.some((item) => item.product.id === option.id) &&
+             option.stockQuantity > 0
         );
 
         if (value === null) {
@@ -94,7 +95,8 @@ export class AddSaleDialogComponent implements OnInit, OnDestroy {
   private _filter(name: string, availableOptions: IProductResponse[]): IProductResponse[] {
     const filterValue = name.toLowerCase();
     return availableOptions.filter((option) =>
-      option.productName.toLowerCase().includes(filterValue)
+      option.productName.toLowerCase().includes(filterValue) &&
+      option.stockQuantity > 0
     );
   }
 
