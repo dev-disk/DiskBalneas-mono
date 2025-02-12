@@ -1,5 +1,7 @@
 package disk.api.domain.entities;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +55,8 @@ public class Sale {
                 }
                 
             }
-            this.subtotal = total;
+            BigDecimal adjustedSubtotal = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP);
+            this.subtotal = adjustedSubtotal.doubleValue();
         }
     }
 
