@@ -5,6 +5,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { StockComponent } from './pages/stock/stock.component';
 import { AuthGuard } from './auth.guard';
 import { AntiAuthGuard } from './anti-auth.guard';
+import { StatisticsComponent } from './pages/statistics/statistics.component';
 
 export const publicRoutes = ['/login'];
 
@@ -13,6 +14,12 @@ export const routes: Routes = [
     path: 'login', 
     component: LoginComponent,
     canActivate: [AntiAuthGuard]
+  },
+  {
+    path: 'statistics',
+    component: StatisticsComponent,
+    canActivate: [AuthGuard],
+    data: { title: 'Estatísticas' }
   },
   { 
     path: 'products', 

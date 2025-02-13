@@ -48,7 +48,8 @@ public class SecurityConfig {
         "/auth/**",
         "/products/**",
         "/sales/**",
-        "/combos/**"
+        "/combos/**",
+        "/statistics/**"
     };
 
     @Bean
