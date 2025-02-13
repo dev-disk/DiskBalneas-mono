@@ -1,0 +1,68 @@
+<div class="statistics-container">
+  <div class="statistics-header">
+    <mat-card
+      class="statistic-card"
+      appearance="outlined"
+      (click)="loadInvoicedGraph()"
+    >
+      <mat-card-header>
+        <mat-card-title>Faturamento</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-card-subtitle
+          >R$ {{ currentStatistic.totalInvoiced }}</mat-card-subtitle
+        >
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card
+      class="statistic-card"
+      appearance="outlined"
+      (click)="loadsaleQuantityGraph()"
+    >
+      <mat-card-header>
+        <mat-card-title>Quant. de Vendas</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-card-subtitle>{{
+          currentStatistic.totalSaleQuantity
+        }}</mat-card-subtitle>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card
+      class="statistic-card"
+      appearance="outlined"
+      (click)="loadProfitGraph()"
+    >
+      <mat-card-header>
+        <mat-card-title>Lucro Total</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-card-subtitle
+          >R$ {{ currentStatistic.totalProfit }}</mat-card-subtitle
+        >
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div class="graphs">
+  <app-invoiced-graph
+    *ngIf="showInvoicedGraph && isDataLoaded"
+    [invoiceData]="invoicedData"
+    [categories]="categories"
+  ></app-invoiced-graph>
+
+  <app-profit-graph
+    *ngIf="showProfitGraph && isDataLoaded"
+    [profitData]="profitData"
+    [categories]="categories"
+  ></app-profit-graph>
+
+  <app-sale-quantity-graph
+    *ngIf="showSaleQuantityGraph && isDataLoaded"
+    [saleQuantityData]="saleQuantityData"
+    [categories]="categories"
+  ></app-sale-quantity-graph>
+</div>
