@@ -33,3 +33,35 @@
         box-shadow: 0 0 5px rgba(255, 174, 0.5);
     }
 }
+
+@media screen and (max-width: 600px) {
+    .border {
+        padding: 30px;
+    }
+    .form-login {
+        height: 70vh;
+        justify-content: center;
+    }
+
+    .form-login img {
+        width: 100%;
+        height: 40%;
+        max-width: 300px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .border {
+        padding: 30px;
+    }
+    .form-login {
+        height: 70vh;
+        justify-content: center;
+    }
+
+    .form-login img {
+        width: 100%;
+        height: 40%;
+    }
+}
+
