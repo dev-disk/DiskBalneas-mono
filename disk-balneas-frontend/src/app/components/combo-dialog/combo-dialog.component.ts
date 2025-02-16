@@ -61,6 +61,7 @@ export class ComboDialogComponent implements OnInit {
       const produtos = response.data.map((p) => ({
         ...p,
         category: Category[p.category as unknown as keyof typeof Category],
+        unitMeasure: UnitMeasure[p.unitMeasure as unknown as keyof typeof UnitMeasure]
       }));
 
       this.iceProducts = produtos.filter((p) => p.category === Category.GELO);
