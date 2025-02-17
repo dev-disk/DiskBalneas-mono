@@ -17,6 +17,7 @@ button {
   max-width: 500px;
   margin: 20px auto 0;
   padding: 16px 16px 0; 
+  overflow-y: auto;
 }
 
 mat-tab-group {
@@ -24,8 +25,6 @@ mat-tab-group {
   width: 100%;
   transform: translateY(20px);
 }
-
-
 
 .button-container {
   display: flex;
@@ -36,6 +35,7 @@ mat-tab-group {
   .form-products-container {
     padding: 20px;
     margin: 10px auto 0;
+    overflow: overlay;
   }
   :host {
     width: 90%;
@@ -62,14 +62,17 @@ mat-tab-group {
     font-size: 16px;
   }
 }
+
 @media screen and (max-width: 400px) {
   .form-products-container {
     padding: 20px;
     margin: 1px auto 0;
+    overflow: overlay;
+    height: 90%;
   }
   :host {
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
   }
 }
 
@@ -78,34 +81,13 @@ mat-tab-group {
     padding: 20px;
     margin: 1px auto 0;
     overflow: overlay;
+    height: 80%;
   }
   :host {
-    width: 90%;
-    height: 70%;
+    width: 100%;
+    height: 100%;
   }
   mat-form-field {
     margin-bottom: 20px;
-  }
-}
-
-@media screen and (max-height: 900px) {
-  :host {
-    height: 90%;
-  }
-}
-
-@media screen and (max-height: 850px) {
-  :host {
-    height: 90%;
-  }
-}
-@media screen and (max-height: 740px) {
-  :host {
-    height: 75%;
-  }
-}
-@media screen and (max-height: 700px) {
-  :host {
-    height: 65%;
   }
 }
