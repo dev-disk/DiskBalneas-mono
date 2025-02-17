@@ -23,3 +23,24 @@
 .graphs {
   width: 100%;
 }
+
+@media screen and (max-width: 600px) {
+  .content {
+    width: 100%;
+  }
+  .statistic-card {
+    margin-bottom: 20px;
+  }
+  mat-card-title, mat-card-subtitle {
+    font-size: 12px;
+  }
+  .graphs {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .content {
+    width: 90%;
+  }
+}
