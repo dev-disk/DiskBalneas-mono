@@ -31,3 +31,81 @@ mat-tab-group {
   display: flex;
   justify-content: center;
 }
+
+@media screen and (max-width: 600px) {
+  .form-products-container {
+    padding: 20px;
+    margin: 10px auto 0;
+  }
+  :host {
+    width: 90%;
+  }
+
+  mat-form-field {
+    margin-bottom: 8px;
+  }
+
+  mat-tab-group {
+    padding: 0 20px;
+  }
+
+  .button-container {
+    margin-top: 16px;
+  }
+
+  ::ng-deep .mat-mdc-form-field {
+    font-size: 14px;
+  }
+
+  button {
+    height: 48px;
+    font-size: 16px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .form-products-container {
+    padding: 20px;
+    margin: 1px auto 0;
+  }
+  :host {
+    width: 90%;
+    height: 90%;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .form-products-container {
+    padding: 20px;
+    margin: 1px auto 0;
+    overflow: overlay;
+  }
+  :host {
+    width: 90%;
+    height: 70%;
+  }
+  mat-form-field {
+    margin-bottom: 20px;
+  }
+}
+
+@media screen and (max-height: 900px) {
+  :host {
+    height: 90%;
+  }
+}
+
+@media screen and (max-height: 850px) {
+  :host {
+    height: 90%;
+  }
+}
+@media screen and (max-height: 740px) {
+  :host {
+    height: 75%;
+  }
+}
+@media screen and (max-height: 700px) {
+  :host {
+    height: 65%;
+  }
+}
