@@ -26,8 +26,7 @@ import { ReplacePipe } from '../../helpers/replace.pipe';
 
 interface SalesItem {
   more: ISale;
-  date: string;
-  hour: string;
+  dateTime: string;
   item: string;
   subtotal: number;
 }
@@ -54,7 +53,7 @@ export class SalesComponent implements AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<SalesItem>;
 
-  displayedColumns = ['more', 'date', 'hour', 'item', 'subtotal'];
+  displayedColumns = ['more', 'dateTime', 'item', 'subtotal'];
   dataSource = new MatTableDataSource<SalesItem>();
   private readonly destroy$ = new Subject<void>();
 
@@ -120,10 +119,12 @@ export class SalesComponent implements AfterViewInit, OnDestroy {
           const tableData: SalesItem[] = response.data.map((sale) => {
             const saleDate = new Date(sale.date);
 
+            const date = saleDate.toLocaleDateString('pt-BR');
+            const time = saleDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
             return {
               more: sale,
-              date: saleDate.toLocaleDateString(),
-              hour: saleDate.toLocaleTimeString(),
+              dateTime: `${date}<br><small>${time}</small>`,
               item: this.formatProductsDisplay(sale),
               subtotal: sale.subtotal,
             };
