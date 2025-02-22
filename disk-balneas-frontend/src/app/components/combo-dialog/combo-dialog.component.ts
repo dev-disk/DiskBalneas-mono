@@ -65,12 +65,15 @@ export class ComboDialogComponent implements OnInit {
       }));
 
       this.iceProducts = produtos.filter((p) => p.category === Category.GELO);
+      console.log("this.iceProducts: ", this.iceProducts)
       this.drinkProducts = produtos.filter(
         (p) => (p.category === Category.WHISKY || p.category === Category.VODKA) && p.unitMeasure === UnitMeasure.DOSE
       );
+      console.log("this.drinkProducts: ", this.drinkProducts)
       this.energyDrinksProducts = produtos.filter(
         (p) => p.category === Category.ENERGETICO && p.unitMeasure === UnitMeasure.DOSE
       );
+      console.log("this.energyDrinksProducts: ", this.energyDrinksProducts)
     });
   }
 
