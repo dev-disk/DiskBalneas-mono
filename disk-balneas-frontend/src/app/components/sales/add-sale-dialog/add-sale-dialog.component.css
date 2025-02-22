@@ -119,3 +119,43 @@ mat-form-field.full-width {
   margin-left: 30px;
   height: 40px;
 }
+
+@media screen and (max-width: 600px) {
+  .add-sale-header {
+    display: flex;
+    align-items: center;
+  }
+  .search-container {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 20px;
+
+  }
+  mat-form-field.full-width {
+    width: 90%;
+  }
+  
+  mat-list-item span:last-child {
+    display: flex;
+  }
+  mat-list-item {
+    margin-bottom: 25px;
+  }
+  .list-item-content {
+    flex-direction: column;
+  }
+  .price-actions {
+    gap: 8px;
+    margin-top: -8px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .add-sale-header {
+    display: flex;
+  }
+
+  .price-actions {
+    gap: 0px;
+  }
+}
