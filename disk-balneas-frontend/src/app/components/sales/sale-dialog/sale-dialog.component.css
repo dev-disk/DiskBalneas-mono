@@ -8,3 +8,6 @@ h2[mat-dialog-title] {
     font-weight: 500;
 }
 
+.mdc-list-item.mdc-list-item--with-one-line {
+    height: 30px;
+}

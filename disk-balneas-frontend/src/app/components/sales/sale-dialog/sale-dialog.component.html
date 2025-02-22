@@ -1,18 +1,23 @@
 <h2 mat-dialog-title>Detalhes da Venda:</h2>
 <mat-dialog-content>
+  {{ formatSaleDate() }}
   <mat-list>
     @for (item of groupedItems; track $index) {
-    <mat-list-item> {{ item.quantity }} x {{ item.productName }} </mat-list-item>
+    <mat-list-item>
+      {{ item.quantity }} x {{ item.productName }}
+    </mat-list-item>
     }
   </mat-list>
 </mat-dialog-content>
 
 <h2 mat-dialog-title>Forma de Pagamento:</h2>
 <mat-dialog-content>
-    <mat-list-item>
-        {{ sale.payment }}
-    </mat-list-item>
+  <mat-list-item>
+    {{ sale.payment }}
+  </mat-list-item>
 </mat-dialog-content>
+
+<h2 mat-dialog-title>Subtotal: R$ {{ sale.subtotal }}</h2>
 
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Voltar</button>

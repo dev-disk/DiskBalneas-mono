@@ -1,7 +1,35 @@
+
+.sales-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
 .full-width-table {
   width: 100%;
+  min-width: 600px;
 }
 
 .sales-header {
   margin-bottom: 20px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .full-width-table {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .full-width-table {
+    font-size: 12px;
+    width: 50%;
+    min-width: 380px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .hide-on-small {
+    display: none;
+  }
 }

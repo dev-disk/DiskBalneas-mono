@@ -1,3 +1,13 @@
 .full-width-table {
   width: 100%;
 }
+
+@media screen and (max-width: 600px) {
+  .hide-on-small {
+    display: none;
+  }  
+}
+
+.mat-column-quantity {
+  text-align: center;
+}

@@ -49,4 +49,14 @@ export class SaleDialogComponent {
       quantity
     }));
   }
+
+  public formatSaleDate() {
+    const saleDate = new Date(this.sale.date);
+    const date = saleDate.toLocaleDateString('pt-BR');
+    const time = saleDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+    const formatDate = `${date} - ${time}`
+
+    return formatDate;
+  }
 }

@@ -30,6 +30,7 @@ interface StockItem {
     CommonModule
   ],
   templateUrl: './stock.component.html',
+  styleUrl: './stock.component.css',
 })
 
 export class StockComponent implements AfterViewInit {

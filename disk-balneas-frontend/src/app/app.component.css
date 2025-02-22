@@ -10,3 +10,9 @@
   flex-direction: column;
   background-color: var(--background-color)
 }
+
+@media screen and (max-width: 600px) {
+  ::ng-deep .mat-mdc-paginator-container {
+  justify-content: center !important;
+}
+}
